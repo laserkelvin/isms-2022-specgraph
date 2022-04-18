@@ -1,939 +1,685 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Chemistry in the Interstellar Medium</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/minimalist.css">
-		<link rel="stylesheet" href="dist/theme/skelet.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<article>
-						<x-grid columns=4 ai="end">
-							<x-col>
-								<h1 class="r-fit-text">Chemistry</h1>
-								<h4 style="opacity: 0.95" class="r-fit-text">in the</h1>
-								<h1 class="r-fit-text">Interstellar</h1>
-								<h1 class="r-fit-text">Medium</h1>
-							</x-col>
-							<x-col span=2+3>
-								<img src="assets/2-cyanonaphthalene.png">
-							</x-col>
-						</x-grid>
-						<footer style="padding-top: 2vw;">
-							<x-grid columns=3 ai="center">
-								<x-col><p>Kelvin Lee</p></x-col>
-								<x-col>
-									<figure class="logo"><img src="assets/mit-logo.png" alt=""></figure>
-								</x-col>
-								<x-col>
-									<figure class="logo"><img src="assets/cfa-logo-transparent.png" alt=""></figure>
-								</x-col>
-							</x-grid>
-						</footer>
-					</article>
-				</section>
-				<section>
-					<x-grid columns=3 ai=center>
+	<title>Chemistry in the Interstellar Medium</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/minimalist.css">
+	<link rel="stylesheet" href="dist/theme/skelet.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<article>
+					<x-grid columns=4 ai="end">
 						<x-col>
-							<h1>TOC</h1>
+							<h1 class="r-fit-text">Open Catalyst</h1>
+							<h4 style="opacity: 0.95" class="r-fit-text">Project Update</h1>
 						</x-col>
-						<x-col span=2+2>
-							<ol>
-								<li>Astro...chemistry?</li>
-								<li>Aromatic dynamite fishing in the laboratory</li>
-								<li>Interstellar molecule hunting</li>
-								<li>Replacing myself with a Raspberry Pi</li>
-							</ol>
+						<x-col span=2+3>
+
 						</x-col>
 					</x-grid>
-				</section>
-				<section>
-					<section>
-						<h1>Introduction</h1>
-					</section>
-					<section>
-						<x-grid columns=6 ai="center">
-							<x-col span=1+1>
-								<h1>Astrochemistry</h1>
-								<hr>
-							</x-col>
-							<x-col span=2+5>
-								<p>Finding new molecules and inferring astrophysics from chemistry</p>
-								<p>From atoms to molecules&mdash;from galactic structure to star formation to biomolecules</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<!-- <section data-background-iframe="https://www.youtube.com/embed/Q2mgpsTFuV8" data-background-interactive> -->
-					<section>
-						<x-grid columns=4 ai=center>
-							<x-col>
-								<p style="padding-right: 50px">Chemistry paints a dynamic picture of "empty space"</p>
-								<p style="padding-right: 50px">Tracking the velocity of neutral hydrogen</p>
-							</x-col>
-							<x-col span=2+3><iframe  src="https://www.youtube.com/embed/Q2mgpsTFuV8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-height: 30vw; width: 100%"></iframe></x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai="center">
-							<x-col>
-								<figure>
-									<img class="grid-image" src="assets/CN.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img class="grid-image" src="assets/silylcyanide.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure><img class="grid-image" src="assets/CH3CHO.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="https://sos.noaa.gov/ftp_mirror/astronomy/wmap_microwave/third_year/media/thumbnail_big.jpg" alt="" class="grid-image">
-									<figcaption>Cosmology</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img class="grid-image" src="https://www.researchgate.net/profile/Chaitanya-Giri/publication/230849841/figure/fig2/AS:601661215105042@1520458620881/Optical-image-of-carbon-star-IRC-10216-taken-from-Focal-Reducer-and-low-dispersion.png">
-									<figcaption>Stellar evolution</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/HL_Tau_protoplanetary_disk.jpg/800px-HL_Tau_protoplanetary_disk.jpg" alt="" class="grid-image">
-									<figcaption>Planet formation</figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure>
-									<img src="/scripts/detections_plot.svg" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="https://upload.wikimedia.org/wikipedia/commons/9/97/Water_infrared_absorption_coefficient_large.gif" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<p>Radio frequencies from Hz to THz</p>
-								<p style="margin-top: -20px">(metres to microns)</p>
-							</x-col>
-							<x-col>
-								<p>Absorption by water vapor</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai="center">
-							<x-col>
-								<h1>How do we detect molecules?</h1>
-							</x-col>
-							<x-col>
-								<p>Vast majority done at radio frequencies: <b>rotational motions of molecules</b></p>
-								<p>Transition frequencies correspond with distribution of mass; $A(BC) \propto \frac{1}{I_{a(bc)}}$</p>
-								<p>Transition strength proportional to permanent dipole moment, $\mu_{a(bc)}$</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai="center">
-							<x-col>
-								<figure><img src="/assets/silylcyanide.png" alt="" class="grid-image"></figure>
-							</x-col>
-							<x-col span=2+3>
-								<figure><img src="/assets/prolate-top.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/Glycine.png" alt="" class="grid-image"></figure>
-							</x-col>
-							<x-col span=2+3>
-								<figure><img src="/assets/asymmetric-top.png" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai=center>
-							<x-col span=1+3>
-								<figure><img src="/assets/complex_mixture_separation.svg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<p>Isomer, Isotopic, Chiral* specificity for mixtures</p>
-								<p>Need extremely accurate and precise catalogs of transitions</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure><img src="/assets/mcguire-2018-census.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/mcguire-census-2018-2.png" alt=""></figure>
-							</x-col>
-							<x-col span=row>
-								<p><small>McGuire 2018 Census of Interstellar Molecules</small></p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<div>
-							<h1>Where are the aromatics?</h1>
-							<p>Ubiquitous in chemistry, but under-represented in space?</p>
-							<x-grid columns=2 ai=center>
-								<x-col>
-									<figure>
-										<img class="grid-image" src="/assets/Benzonitrile.png" alt="">
-										<figcaption>McGuire <em>et al.</em>, <em>Science</em> (2018)</figcaption>
-									</figure>
-								</x-col>
-								<x-col>
-									<ul>
-										<li>Lack of precise spectroscopic data</li>
-										<li>Small concentrations in space</li>
-										<li>Spectroscopically unfavorable (partition function, dipole moment)</li>
-										<li>Precursors to aromaticity</li>
-									</ul>
-								</x-col>
-							</x-grid>
-						</div>
-					</section>
-					<section>
-						<div>
-							<figure>
-								<img src="/assets/trinityt.svg" alt="" style="max-height: 30vw">
-							</figure>
-						</div>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h1>Laboratory</h1>
-						<h1>spectroscopy</h1>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<ul>
-									<li>Need accurate <em>and</em> precise (~kHz) linelists to find molecules.</li>
-									<li>Fourier-transform microwave spectroscopy</li>
-								</ul>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/NewSchemmatic_plain.svg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<ul>
-									<li>Chemistry via electrical discharge and/or laser ablation</li>
-									<li>Supersonic cooling; rotational temperatures of a few kelvin</li>
-									<li>Excite $\rightarrow$ FID $\rightarrow$ FFT</li>
-									<li>Cavity and broadband chirped pulse operation</li>
-								</ul>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai="center">
-							<x-col>
-								<h1>What can we study?</h1>
-							</x-col>
-							<x-col span=2+2>
-								<x-grid columns=3 ai="center">
-									<x-col>
-										<figure><img src="/assets/HCCSH.png" alt=""></figure>
-									</x-col>
-									<x-col>
-										<figure><img src="/assets/silylisocyanide.png" alt=""></figure>
-									</x-col>
-									<x-col><p>GeC$_6$</p></x-col>
-									<x-col>
-										<p>Discharge</p> 
-										<p>H<sub>2</sub>S + HCCH</p>
-									</x-col>
-									<x-col>
-										<p>Discharge</p>
-										<p>SiH<sub>4</sub> + CH<sub>3</sub>CN</p>
-									</x-col>
-									<x-col>
-										<p>Ablate</p>
-										<p>Ge + C target</p>
-									</x-col>
-								</x-grid>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai="center">
-							<x-col>
-								<h1>Broadband reaction assays</h1>
-							</x-col>
-							<x-col span=2+2>
-								<p>Dynamite fishing for aromatic chemistry</p>
-								<figure style="padding: 20px">
-									<img src="assets/growth-vs-fragmentation.svg" alt="">
-								</figure>
-								<p>Broadband discharge product detection over 2&ndash;18 GHz</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<div style="align-content: center">
-							<iframe src="assets/benzene-spectrum.html" style="width: 90%; height: 25vw; margin: 0 auto;"></iframe>
-						</div>
-					</section>
-					<section>
-						<x-grid columns=5 ai="center">
-							<x-col>
-								<h1>Automating analysis with open-source development</h1>
-							</x-col>
-							<x-col span=2+4>
-								<h2>PySpecTools</h2>
-								<x-grid columns=3 ai="center">
-									<x-col>
-										<p>Baseline and peak detection</p>
-									</x-col>
-									<x-col>
-										<p>Reproducible line analysis</p>
-									</x-col>
-									<x-col>
-										<p>Interactive report generation</p>
-									</x-col>
-								</x-grid>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<figure><img src="/assets/pst-workflow.svg" alt="" style="max-height: 30vw;"></figure>
-					</section>
-					<section>
-						<x-grid columns=6 ai="center">
-							<x-col span=1+2>
-								<figure>
-									<img src="https://pubs.acs.org/na101/home/literatum/publisher/achs/journals/content/jpclcd/2019/jpclcd.2019.10.issue-10/acs.jpclett.9b00586/20190514/images/medium/jz-2019-00586k_0004.gif" alt="">
-									<figcaption><small>Lee & McCarthy, <em>JPCL</em> 2019</small></figcaption>
-								</figure>
-							</x-col>
-							<x-col span=3+2>
-								<p>450 spectral features with SNR > 6</p>
-								<p>47 carriers identified in the mixture</p>
-								<p>9 new molecules not previously reported</p>
-							</x-col>
-							<x-col span=5+2>
-								<figure><img src="assets/new-hydrocarbons.jpeg" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section data-background-iframe="/scripts/discharge-plots.html" data-preload>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>New -CN species</h1>
-								<hr>
-								<p>>3000 lines; 89% assigned</p>
-								<p>152 unique carriers, with 60 variants</p>
-								<p>~50 new molecules and revised spectroscopy</p>
-								<p>McCarthy <em>et al.</em> <em>JPCA</em> 2020</p>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/1-cyanocpd.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/trans-cva.png" alt=""></figure>
-							</x-col>
-							<x-col span=row>
-								<p>New molecules to target, and precise catalogs of frequencies</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<p>Automation ties efficiency between data acquisition and analysis</p>
-						<p>Laboratory setting the candence for astrochemical discovery</p>
-						<div>
-							<figure>
-								<img src="/assets/tag-rigid-rotor-energy.png" alt="">
-								<figcaption><em>One day...™️</em></figcaption>
-							</figure>
-						</div>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h1>Observational</h1>
-						<h1>astrochemistry</h1>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<p>We've got numbers to dial&mdash;now what?</p>
-							</x-col>
-							<x-col span=2+2>
-								<figure style="padding: 5px">
-									<img src="assets/gbt_image.jpg" alt="" style="max-width: 20vw">
-								</figure>
-								<figure style="padding: 5px">
-									<img src="assets/P1060153.JPG" alt="" style="max-width: 20vw">
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai=center>
-							<x-col span=1>
-								<h1>Understanding interstellar chemistry</h1>
-								<hr>
-								<p>Targeting chemically rich,</p>
-								<p style="margin-top: -20px">quiet regions of space</p>
-							</x-col>
-							<x-col span=2+3>
-								<figure>
-									<img src="http://www.esa.int/var/esa/storage/images/esa_multimedia/images/2017/09/herschel_s_view_of_the_taurus_molecular_cloud/17161713-2-eng-GB/Herschel_s_view_of_the_Taurus_molecular_cloud_fullwidth.jpg" alt="" style="padding-left: 10px">
-									<figcaption>Taurus Molecular Cloud-1&mdash;ESA</figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<figure><img src="/assets/Gotham_with_spectra_bam.png" alt=""></figure>
-						<p><b>G</b>BT <b>O</b>bservations of <b>T</b>MC-1: <b>H</b>unting <b>A</b>romatic <b>M</b>olecules</p>
-						<p>500+ hour large spectral line survey of TMC-1</p>
-						<p>High spectral resolution (1.4 kHz) · High sensitivity (~1 mK RMS)</p>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col span=row>
-								<figure>
-									<img src="/scripts/gotham-spectrum.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/C6H.png" alt="" style="max-height: 10vw;"></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/HC3N.png" alt="" style="max-height: 10vw;"></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/Ketene.png" alt="" style="max-height: 10vw;"></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure>
-									<img src="/assets/1-cyanocpd.png" alt="">
-									<figcaption>Evidence for 1-cyanocyclopentadiene?</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/weak-cyanocpd.png" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Hunting big game</h1>
-								<hr>
-								<p>Large molecules suffer from partition function dilution</p>
-							</x-col>
-							<x-col>
-								<figure><img src="scripts/bn_sim_4K.png" alt=""></figure>
-								<figure><img src="scripts/cnn_sim_4K.png" alt="" style="padding-top: 50px"></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/1-cyanocpd.png" alt="" style="max-height: 10vw"></figure>
-								<figure><img src="/assets/2-cyanonaphthalene.png" alt=""></figure>
-							</x-col>
-							<x-col span=row>
-								<p>Velocity stacking + Bayesian matched filtering to improve signal retrieval</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Velocity stacking</h1>
-								<hr>
-								<p>Weighted sum of spectra:</p>
-								<p>For each transition,</p>
-								<p style="margin-top: -20px">weight by predicted intensity and noise RMS</p>
-							</x-col>
-							<x-col>
-								<figure><img src="/scripts/signal-under-noise.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<video controls=1>
-										<source data-src="/scripts/time_animation.mp4" type="video/mp4" />
-									</video>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Bayesian Filter Design</h1>
-								<hr>
-								<p>Infer molecular parameters given the observed spectra with Markov chain Monte Carlo</p>
-							</x-col>
-							<x-col>
-								<p>How likely is the molecule at 7 K? (versus 7.1?)</p>
-								<p>How likely is the molecule at $X$ abundance? (versus $Y$?)</p>
-							</x-col>
-							<x-col>
-								<p>Range of possible parameters consistent with the data</p>
-								<p>Encode chemical knowledge to priors on parameters</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<figure><img src="/assets/bayesian-workflow.svg" alt=""></figure>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<figure><img src="/assets/1-cyanocpd.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/weak-cyanocpd.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/cyanocpd-stack.png" alt=""></figure>
-							</x-col>
-							<x-col span=row>
-								<p>Matched filter response corresponds to detection significance</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai=center>
-							<x-col>
-								<p>Molecule parameter estimation</p>
-							</x-col>
-							<x-col span=2+3>
-								<figure><img src="/assets/indene_cornerplot.png" alt="" style="max-height: 30vw;"></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai="top">
-							<x-col>
-								<figure>
-									<img style="max-width: 10vw; height: auto" src="/assets/1-cyanocpd.png" alt="">
-									<figcaption>
-										<p class="r-fit-text">1/2-cyanocyclopentadiene</p>
-										<p>McCarthy <em>et al.</em>, <em>Nat. Astro.</em> 2021</p>
-										<p>Lee <em>et al.</em>, <em>Ap. J. Letters</em>, 2021a</p>
-									</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img style="max-width: 10vw; height: auto" src="/assets/indene.png" alt="">
-									<figcaption>
-										<p>Indene</p>
-										<p>Burkhardt <em>et al.</em>, <em>Ap. J. Letters</em>, 2021</p>
-									</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img style="max-width: 10vw; height: auto" src="/assets/2-cyanonaphthalene.png" alt="">
-									<figcaption>
-										<p class="r-fit-text">1/2-cyanonaphthalene</p>
-										<p>McGuire <em>et al.</em>, <em>Science</em>, 2021</p>
-									</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img style="max-width: 10vw; height: auto" src="/assets/trans-cva.png" alt="">
-									<figcaption>
-										<p class="r-fit-text">trans-(E)-cyanovinylacetylene</p>
-										<p>Lee <em>et al.</em>, <em>Ap. J. Letters</em>, 2021b</p>
-									</figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Where to from now?</h1>
-								<hr>
-								<p>Aromaticity as the lynchpin of (astro)chemistry</p>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="/assets/aromatic-model-production.svg" alt="">
-									<figcaption>
-										<p>Wholistic models of dark cloud chemistry</p>
-									</figcaption>
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/New_Hubble_image_of_Kleinmann-Low_Nebula.jpg" alt="">
-									<figcaption>
-										<p>Physi-chemical models of large scale processes</p>
-									</figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h1>Machine Learning</h1>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<p>To date, astrochemistry has been largely reactionary</p>
-								<p>How do we make informed decisions on what comes next?</p>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/models-vs-tmc1.gif" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Embedding</h1>
-								<h1 style="margin-top: -20px; margin-bottom: 20px">Scaling</h1>
-								<h1>chemical intuition</h1>
-							</x-col>
-							<x-col span=2+2>
-								<x-grid columns=2 ai=top>
-									<x-col>
-										<figure><img src="assets/Benzene.png" alt=""></figure>
-									</x-col>
-									<x-col>
-										<figure><img src="assets/Benzonitrile.png" alt=""></figure>
-									</x-col>
-								</x-grid>
-								<p>Continuous properties in a latent chemical space</p>
-								<p>Using machine learning to map molecules to vectors</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Natural Language</h1>
-								<h2>and</h2>
-								<h1>Chemistry</h1>
-							</x-col>
-							<x-col>
-								<p>Paris $-$ France</p> 
-								<p>$\approx$</p>
-								<p>Tokyo $-$ Japan</p>
-							</x-col>
-							<x-col>
-								<p>Benzonitrile $-$ CN</p>
-								<p>$\approx$</p>
-								<p>Benzene $-$ H </p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Natural Language</h1>
-								<h2>and</h2>
-								<h1>Chemistry</h1>
-							</x-col>
-							<x-col span=2+2>
-								<p>Encode structures as 1D SMILES strings</p>
-								<x-grid columns=3 ai=center>
-									<x-col>
-										<figure><img src="/assets/Benzene.png" alt=""></figure>
-									</x-col>
-									<x-col>
-										<p>$\rightarrow$</p>
-									</x-col>
-									<x-col>
-										<code>c1ccccc1</code>
-									</x-col>
-								</x-grid>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Natural Language</h1>
-								<h2>and</h2>
-								<h1>Chemistry</h1>
-							</x-col>
-							<x-col span=2+2>
-								<p>SMILES to fingerprints</p>
-								<figure>
-									<img src="/assets/morgan-fingerprints.png" alt="">
-									<figcaption>Jaeger <em>et al.</em> <em>JCIM</em> 2018</figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=3 ai=center>
-							<x-col>
-								<h1>Natural Language</h1>
-								<h2>and</h2>
-								<h1>Chemistry</h1>
-							</x-col>
-							<x-col span=2+2>
-								<figure>
-									<img src="/assets/mol2vec.svg" alt="">
-									<figcaption>Map substructures to 300-D vectors</figcaption>
-									<p>Trained on 3.3 million SMILES strings</p>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai=center>
-							<x-col>
-								<h2>Molecule recommendations</h2>
-								<h2 style="margin-top: 50px">Abundance prediction</h2>
-							</x-col>
-							<x-col span=2+3>
-								<figure>
-									<img src="/assets/neighbors.svg" alt="" style="max-width: 25vw;">
-									<figcaption><em>As simple as nearest neighbors</em></figcaption>
-								</figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<h1>Application to TMC-1</h1>
-								<hr>
-								<p>Lee <em>et al.</em> <em>Ap. J. Letters</em> 2021c</p>
-							</x-col>
-							<x-col>
-								<p>Given a 86 known molecules, infer:</p>
-								<ul>
-									<li>Likely candidates for detection</li>
-									<li>Abundance of new molecules</li>
-									<li>Abundance of "invisible" molecules</li>
-									<li>Physical properties (e.g. temperature)</li>
-								</ul>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure>
-									<img src="/assets/recommendations.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="/assets/umda-vs-model.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<p>Nearest-neighbor queries in chemical space</p>
-							</x-col>
-							<x-col>
-								<p>Better reproduction of abundances than chemical models</p>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure><img src="https://github.com/laserkelvin/umda/raw/master/project-image.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<p>Identified 1500 candidates, with predicted abundances to prioritize</p>
-								<p>Inform modeling, computational, laboratory, and observational efforts</p>
-								<p>Towards data-driven astrochemistry</p>
-								<p>Lots of possibilities with machine chemical intuition!</p>
-							</x-col>
-						</x-grid>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h1>Conclusions</h1>
-						<hr>
-						<p>Fruitful avenues combining laboratory spectroscopy, observations, and machine learning</p>
-						<p>New tools for understanding the role of aromaticity in astrophysics</p>
-						<p><em>Still lots of open questions:</em></p>
-						<p>Where are the heterocycles? · Are aromatics formed at low temperature?</p>
-					</section>
-				</section>
-				<section>
-					<section>
-						<x-grid columns=6>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/mccarthy2016.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/mcguire2018.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/martindrumel.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/brandon.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/stephen.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/stanton.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/barnum_headshot.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/rLoomis.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/sthorwirth.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/jessie-new.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/a_burkhardt_0.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/gupta.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/bryan_changala.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="https://chemistry.ucdavis.edu/sites/g/files/dgvnsk196/files/styles/sf_profile/public/images/person/IMG_20200514_164827.jpg?h=d318f057&itok=Hty9iP8j" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/lattanzi.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="https://portal.ru.nl/profileservice/rest/1.0/profilephoto/735184?timestamp=1631539730&user=735184&hash=c663cfe684d8366289a1b5d80b729e86&secure=false" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/reilly.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure class="person-figure"><img src="/assets/people/schlemmer.jpg" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=2 ai=center>
-							<x-col>
-								<figure><img src="/assets/people/group2017.JPG" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/people/group2018.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/people/isms_2019.jpg" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="/assets/people/gotham_2019_photo.jpg" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<x-grid columns=4 ai="center">
-							<x-col span="row">
-								<h1>Acknowledgements</h1>
-							</x-col>
-							<x-col>
-								<figure>
-									<img src="assets/mit-logo.png" alt="">
-								</figure>
-							</x-col>
-							<x-col>
-								<figure><img src="assets/cfa-logo-transparent.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="assets/nasa.png" alt=""></figure>
-							</x-col>
-							<x-col>
-								<figure><img src="assets/nsf.png" alt=""></figure>
-							</x-col>
-						</x-grid>
-					</section>
-					<section>
-						<h1>Thank you!</h1>
-						<x-grid columns=2 ai="center">
-							<x-col>
-								<p><i class="fa fa-github" style="font-size: 3em;"></i></p>
-							</x-col>
-							<x-col js="start">
-								<p><a href="https://laserkelvin.github.io">github.com/laserkelvin</a></p>
-							</x-col>
-							<x-col>
-								<p><i class="fa fa-twitter" style="font-size: 3em;"></i></p>
-							</x-col>
-							<x-col js="start">
-								<p><a href="https://twitter.com/cmmmsubmm">@cmmmsubmm</a></p>
-							</x-col>
-							<x-col>
-								<p><i class="fa ai ai-google-scholar" style="font-size: 3em;"></i></p>
-							</x-col>
-							<x-col js="start">
-								<p><a href="https://scholar.google.com/citations?hl=en&user=cB90fKUAAAAJ&view_op=list_works&sortby=pubdate">https://bit.ly/3l9Gl07</a></p>
-							</x-col>
-						</x-grid>
-					</section>
-			</div>
-		</div>
+				</article>
+			</section>
+			<section>
+				<h2>Open Catalyst Project progress</h2>
+				<x-grid columns="2" ai="end">
+					<x-col>
+						<figure class="fragment">
+							<img src="https://opencatalystproject.org/assets/images/og_image.png" style="height: 8vw">
+							<!-- <video data-autoplay alt="" height="100">
+								<source src="https://opencatalystproject.org/assets/videos/singlerandom_system.mp4">
+							</video> -->
+							<caption>
+								<p>Open Catalyst Project as HPC MLPerf workload</p>
+							</caption>
+						</figure>
+					</x-col>
+					<x-col>
+						<figure class="fragment">
+							<img src="assets/pyg-gnn-bottleneck.png" alt="">
+							<caption>
+								<p>Core GNN computation limited by single-threaded CPU PyTorch primitive</p>
+							</caption>
+						</figure>
+					</x-col>
+					<x-col>
+						<figure class="fragment">
+							<img src="assets/dgl-single-proc.gif" alt="">
+							<caption>
+								<p>Porting OCP models to DGL takes advantage of <code>libxsmm</code> GSpMM kernels</p>
+							</caption>
+						</figure>
+					</x-col>
+					<x-col>
+						<div class="fragment">
+							<pre><code>import pytorch_lightning as pl
 
-		<script src="plugin/skelet/app.js"></script>
-		<script src="plugin/skelet/modules.js"></script>
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script src="plugin/math/math.js"></script>
-		<script src="plugin/zoom/zoom.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
-				slideNumber: true,
-				transition: 'fade',
-				transitionSpeed: 'slow',
-				controlsLayout: 'edges',
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom ]
-			});
-		</script>
-	</body>
-	<footer>
-		<p>Huerrangklaemg</p>
-	</footer>
+model = OCPLitModule()
+data_module = GraphDataModule()
+
+trainer = pl.Trainer(
+	strategy="ddp", accelerator="cpu", num_processes=4,
+	num_nodes=2, max_epochs=1, profiler="pytorch"
+)
+
+trainer.fit(model, data_module)</code></pre>
+							<p>Bringing OCP up to MLOps best practices for scalability, portability, and maintability
+							</p>
+						</div>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="2" ai="end">
+					<x-col>
+						<figure>
+							<img src="https://laserkelvin.github.io/isms-2021/assets/graphs/graph_subsampling.png"
+								alt="">
+							<caption>
+								<em>Partition function estimation from incomplete graphs</em>
+								<p>UC Davis</p>
+							</caption>
+						</figure>
+					</x-col>
+					<x-col>
+						<figure>
+							<img src="https://pubs.acs.org/na101/home/literatum/publisher/achs/journals/content/acscii/2019/acscii.2019.5.issue-9/acscentsci.9b00576/20190918/images/medium/oc9b00576_0009.gif"
+								alt="">
+							<caption>
+								<em>Automated reaction generation with transformers</em>
+								<p>UVa</p>
+							</caption>
+						</figure>
+					</x-col>
+					<x-col>
+						<em>Polymer radical/ionic liquids design with AI</em>
+						<p>TAMU</p>
+					</x-col>
+					<x-col>
+						<em>Replacing bespoke malaria models with neural networks</em>
+						<p>GF/IDM</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=4 ai="center">
+					<x-col>
+						<h2>Open Catalyst Recap</h2>
+					</x-col>
+					<x-col span=2+3>
+						<ol>
+							<li>Implemented with PyTorch, PyTorch Geometric</li>
+							<li>Single-threaded <code>scatter-gather</code> implementation </li>
+							<li>Deep Graph Library has first class CPU support</li>
+							<li>Potential collaboration with Intel Labs (Marcel Nassar <em>et al</em>.) </li>
+						</ol>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=5 ai="center">
+					<x-col>
+						<h2>Framework comparisons</h2>
+					</x-col>
+					<x-col span=2+2>
+						<h2>PyG</h2>
+						<ul>
+							<li>CUDA centric, unoptimized CPU kernels</li>
+							<li>Undirected monograph basis</li>
+							<li>Plethora of models</li>
+						</ul>
+					</x-col>
+					<x-col span=4+2>
+						<h2>DGL</h2>
+						<ul>
+							<li>Supports CUDA, but also uses <code>libxsmm</code></li>
+							<li>Directed graph representation</li>
+							<li>Few models and layers implemented</li>
+						</ul>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=5>
+					<x-col>
+						<h2>Installation</h2>
+					</x-col>
+					<x-col span=2+2>
+						<h2>PyG</h2>
+						<pre><code>pip install torch-sparse \
+	torch-scatter \
+	torch-cluster \
+	torch-spline-conv
+
+pip install torch-geometric
+</code></pre>
+					</x-col>
+					<x-col span="4+2">
+						<h2>
+							DGL
+						</h2>
+						<pre><code>conda install -c dglteam dgl</code></pre>
+						<p>Bundles <code>libxsmm</code> and OpenBLAS</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="2">
+					<x-col>
+						<h2>PyG</h2>
+						<p>
+						<pre>
+								<code>from torch.nn import Linear, ReLU
+from torch_geometric.nn import Sequential, GCNConv
+
+model = Sequential('x, edge_index', [
+	(GCNConv(in_channels, 64), 'x, edge_index -> x'),
+	ReLU(inplace=True),
+	(GCNConv(64, 64), 'x, edge_index -> x'),
+	ReLU(inplace=True),
+	Linear(64, out_channels),
+])
+
+# pass node features and edges
+model.forward(x, edge_index)</code>
+							</pre>
+						</p>
+					</x-col>
+					<x-col>
+						<h2>
+							DGL
+						</h2>
+						<p>
+						<pre>
+							<code>from torch.nn import Linear, RELU
+from dgl.nn.pytorch import Sequential, GraphConv
+
+model = Sequential(
+	GraphConv(in_channels, 64, activation=RELU),
+	GraphConv(64, 64, activation=RELU),
+	Linear(64, out_channels)
+)
+
+# pass a DGL graph and node features
+x = graph.ndata["x"]
+model.forward(graph, x)</code>
+						</pre>
+						</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=7>
+					<x-col>
+						<p>
+							For data:
+						</p>
+						<ul>
+							<li>Node features <code>x</code></li>
+							<li>Edge indices <code>A, B</code></li>
+							<li>Graph labels/targets <code>y</code></li>
+						</ul>
+					</x-col>
+					<x-col span="2+3">
+						<h2>PyG</h2>
+						<pre><code>from torch_geometric.data import Data, Batch
+
+# shape [2, E] for E edges
+edge_index = torch.stack([A, B])
+
+graph = Data(
+	x=x,
+	y=y,
+	edge_index=edge_index
+)
+
+# generate monolithic block graph
+batch = Batch.from_data_list(
+	[graph, graph, graph, graph]
+)
+# attribute index for nodes to graphs within a batch
+batch.batch</code></pre>
+					</x-col>
+					<x-col span="5+3">
+						<h2>DGL</h2>
+						<pre><code>from dgl import graph, batch
+
+# create graph from edges
+g = graph((A, B))
+g.ndata["x"] = x
+
+b = batch([g, g, g, g])</code></pre>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=2 ai="center">
+					<x-col>
+						<img src="assets/mpi-ocp-top.gif" type="video/gif">
+					</x-col>
+					<x-col>
+						<p><code>scatter-gather</code> spends most of its time on single thread compute</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>DGL performance test</h2>
+					</x-col>
+					<x-col span="2+2">
+						<ul>
+							<li>Random graphs generated on the fly with:
+								<ul>
+									<li>100&ndash;400 nodes</li>
+									<li>200&ndash;800 edges</li>
+									<li>Batch size of 64</li>
+								</ul>
+							</li>
+							<li>Sky Lake on Diamond, <code>OMP_NUM_THREADS=26</code></li>
+							<li><code>numactl -m 0 python run.py</code> </li>
+						</ul>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="2" ai="center">
+					<x-col>
+						<pre><code>| Name        | Type                   | Params
+-------------------------------------------------------
+0 | layers      | ModuleList             | 136 K 
+1 | layers.0    | SAGEConv               | 45.3 K
+2 | layers.1    | SAGEConv               | 34.3 K
+3 | layers.2    | SAGEConv               | 24.8 K
+4 | layers.3    | SAGEConv               | 16.8 K
+5 | layers.4    | SAGEConv               | 10.4 K
+6 | layers.5    | SAGEConv               | 5.5 K 
+7 | gap         | GlobalAttentionPooling | 33    
+8 | gap.gate_nn | Linear                 | 33    
+9 | loss        | MSELoss                | 0     
+-------------------------------------------------------
+136 K     Trainable params
+0         Non-trainable params
+136 K     Total params
+0.548     Total estimated model params size (MB)
+											</code></pre>
+					</x-col>
+					<x-col>
+						<p>
+							Number of nodes per batch: ~15,000
+						</p>
+						<p>
+							Number of edges per batch: ~70,000
+						</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns=2 ai="center">
+					<x-col>
+						<img src="assets/dgl-single-proc.gif" type="video/gif">
+					</x-col>
+					<x-col>
+						<p>Single process</p>
+						<p>Consistent multithreading on graph ops!</p>
+						<p>~260 graphs per second</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Modernizing Open Catalyst</h2>
+					</x-col>
+					<x-col span="2+2">
+						<p>Significant portion of OCP is boilerplate</p>
+						<p>~33,000 lines of code</p>
+						<p>Highly opaque and sparse documentation on implementations and interfaces</p>
+						<p>Move to generalized, modern MLOps framework like PyTorch Lightning</p>
+						<p>Advantages of cleaner code for development, scalability, and usability on different
+							accelerators</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="5">
+					<x-col span="1+2">
+						<pre><code>├── common
+│   ├── data_parallel.py
+│   ├── distutils.py
+│   ├── flags.py
+│   ├── hpo_utils.py
+│   ├── __init__.py
+│   ├── logger.py
+│   ├── registry.py
+│   ├── relaxation
+│   ├── transforms.py
+│   └── utils.py
+├── datasets
+│   ├── embeddings
+│   ├── __init__.py
+│   ├── single_point_lmdb.py
+│   └── trajectory_lmdb.py
+├── __init__.py
+├── models
+│   ├── base.py
+│   ├── cgcnn.py
+│   ├── dimenet_plus_plus.py
+│   ├── dimenet.py
+│   ├── egnn
+│   ├── forcenet.py
+│   ├── gemnet
+│   ├── __init__.py
+│   ├── schnet_dgl.py
+│   ├── schnet.py
+│   ├── spinconv.py
+│   └── utils
+├── modules
+│   ├── evaluator.py
+│   ├── exponential_moving_average.py
+│   ├── __init__.py
+│   ├── loss.py
+│   ├── normalizer.py
+│   └── scheduler.py
+├── preprocessing
+│   ├── atoms_to_graphs.py
+│   ├── __init__.py
+├── tasks
+│   ├── __init__.py
+│   └── task.py
+└── trainers
+	├── base_trainer.py
+	├── energy_trainer.py
+	├── forces_trainer_dgl.py
+	├── forces_trainer.py
+	└── __init__.py
+							</code></pre>
+					</x-col>
+					<x-col span="3+2">
+						<pre><code>├── __init__.py
+├── lightning
+│   ├── data.py
+│   ├── __init__.py
+│   ├── registry.py
+│   ├── s2ef.py
+│   ├── is2re.py
+│   └── tests
+├── models
+│   ├── base.py
+│   ├── cgcnn.py
+│   ├── dimenet_plus_plus.py
+│   ├── dimenet.py
+│   ├── egnn
+│   ├── forcenet.py
+│   ├── gemnet
+│   ├── __init__.py
+│   ├── schnet_dgl.py
+│   ├── schnet.py
+│   ├── spinconv.py
+│   └── utils
+├── modules
+│   ├── evaluator.py
+│   ├── exponential_moving_average.py
+│   ├── __init__.py
+│   ├── loss.py
+│   ├── normalizer.py
+├── preprocessing
+│   ├── atoms_to_graphs.py
+│   ├── __init__.py
+							</code></pre>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Dataloading</h2>
+					</x-col>
+					<x-col span="2+2">
+						<pre><code>
+import pytorch_lightning as pl
+
+class GraphDataModule(pl.LightningDataModule):
+	...
+	def setup(self, stage: Union[str, None] = None) -> None:
+        self.data_splits = {}
+        # set up each of the dataset splits
+        for key, path in self.paths.items():
+            self.data_splits[key] = self.dataset_class(
+                root_path=path, name=key
+            )
+
+	def train_dataloader(self):
+		split = self.data_splits.get("train")
+		return self.loader_func(
+			split,
+			shuffle=True,
+			num_workers=self.num_workers,
+			batch_size=self.batch_size,
+			collate_fn=self.collate_fn,
+		)
+	
+	def test_dataloader(self):
+        split = self.data_splits.get("test")
+        if split is not None:
+            return self.loader_func(
+                split,
+                shuffle=False,
+                num_workers=self.num_workers,
+                batch_size=self.batch_size,
+                collate_fn=self.collate_fn,
+            )
+        else:
+            warn(f"Test split not defined; not performing testing.")
+            pass
+						</code></pre>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Model definition</h2>
+					</x-col>
+					<x-col span="2+2">
+						<pre><code>
+from torch import nn
+import pytorch_lightning as pl
+
+class AbstractTask(nn.Module):
+
+    __task__ = None
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    @property
+    def num_params(self) -> int:
+        return sum(p.numel() for p in self.parameters())
+
+
+class OCPLitModule(pl.LightningModule):
+
+	__normalize_keys__ = ["target", "grad_target"]
+
+	def __init__(
+		self,
+		model: AbstractTask,
+		normalize_kwargs: Optional[Dict[str, float]] = None,
+	):
+	...
+
+	def step(self, batch, batch_idx, prefix: str = "train") -> float:
+		losses = self._compute_losses(batch, batch_idx)
+		self.log(f"{prefix}_metrics", losses)
+		if prefix != "train":
+		    # run validation/test metrics not needed for training
+		    self._evaluate(batch)
+		return losses.get("total")
+
+	def training_step(self, batch, batch_idx) -> float:
+		return self.step(batch, batch_idx, "train")
+
+	def validation_step(self, batch, batch_idx) -> float:
+		return self.step(batch, batch_idx, "validation")
+
+	def test_step(self, batch, batch_idx) -> float:
+		return self.step(batch, batch_idx, "test")
+
+	def _compute_losses(self, batch, batch_idx) -> Dict[str, float]:
+        graph, labels = batch
+        # TODO this is really sub-optimal; should be collating data out of
+        # data loaders properly
+        true_energies = torch.FloatTensor(
+            [i.label for i in labels], device=graph.device
+        )
+        true_forces = graph.ndata["force"]
+        (pred_energy, pred_force) = self(graph)
+        # grab coefficients to scale losses
+        energy_scale, force_scale = (
+            self.scalers.get("energy", 1.0),
+            self.scalers.get("force", 30.0),
+        )
+        # normalize the targets before loss computation
+        true_energies = self.normalizers["target"].norm(true_energies)
+        true_forces = self.normalizers["grad_target"].norm(true_forces)
+        # compute energy and force losses
+        energy_loss = (
+            self.energy_loss(pred_energy, true_energies) * energy_scale
+        )
+        force_loss = self.force_loss(pred_force, true_forces) * force_scale
+        # package the losses into a dictionary for logging
+        loss_dict = {"energy": energy_loss, "force": force_loss}
+        for key in loss_dict.keys():
+            loss_dict[key] *= self.scalers.get(key)
+        loss_dict["total"] = sum([value for value in loss_dict.values()])
+        return loss_dict
+					</code></pre>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Training script</h2>
+					</x-col>
+					<x-col span="2+2">
+						<pre><code># run.py
+import pytorch_lightning as pl
+
+model = OCPLitModule()
+
+data_module = GraphDataModule()
+
+trainer = pl.Trainer(
+	strategy="ddp", accelerator="cpu", num_processes=4,
+	num_nodes=2, max_epochs=1, profiler="pytorch"
+)
+
+trainer.fit(model, data_module)
+					</code></pre>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Experimental CLI</h2>
+					</x-col>
+					<x-col span="2+2">
+						<p>Launch with <code>python -m ocpmodels.cli fit --config config.yaml</code></p>
+						<pre><code>model:
+	class_path: ocpmodels.models.DimeNetPP
+	init_args:
+		in_channels: 5
+		out_channels: 128
+		out_dim: 3
+		num_conv: 3
+		fc_out_dim: 128
+		num_fc_layers: 3
+		activation: torch.nn.SiLU
+data:
+	class_path: ocpmodels.lightning.data.GraphDataModule
+	init_args:
+		target: "200k"
+		batch_size: 8
+		test_size: 0.2
+		val_size: 0.2
+		num_workers: 1
+trainer:
+	max_epochs: 20
+	num_nodes: 1
+	num_processes: 4
+	strategy: "ddp"
+	accelerator: "cpu"
+optimizer:
+	class_path: torch.optim.Adam
+	init_args:
+		lr: 0.01
+lr_scheduler:
+	class_path: torch.optim.lr_scheduler.CosineAnnealingLR
+	init_args:
+		T_max: 50
+seed_everything: 21951</code></pre>
+						<p>Use SigOpt for logging and hyperparameter tuning</p>
+					</x-col>
+				</x-grid>
+			</section>
+			<section>
+				<x-grid columns="3" ai="center">
+					<x-col>
+						<h2>Progress</h2>
+					</x-col>
+					<x-col span="2+2">
+						<p>DGL/Lightning data modules ⭕</p>
+						<p>OCP data loading ⭕</p>
+						<p>SchNet implementation ❎</p>
+						<p><a href="https://github.com/xnuohz/DimeNet-dgl/tree/master/modules">DimeNet++
+								implementation</a> 🚧</p>
+					</x-col>
+				</x-grid>
+			</section>
+		</div>
+	</div>
+
+	<script src="plugin/skelet/app.js"></script>
+	<script src="plugin/skelet/modules.js"></script>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			transition: 'fade',
+			transitionSpeed: 'slow',
+			controlsLayout: 'edges',
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom]
+		});
+	</script>
+</body>
+<footer>
+	<p>Huerrangklaemg</p>
+</footer>
+
 </html>
