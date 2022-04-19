@@ -5,7 +5,7 @@
  *
  * By Kelvin Lee, 2021
  */
-@import url(../template/skelet.css);
+@import url(skelet.css);
 @import url(./fonts/source-sans-pro/source-sans-pro.css);
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
@@ -329,3 +329,33 @@ figure figcaption {
 
 .reveal iframe {
   height: 50vw; }
+
+.footer {
+  position: absolute;
+  display: table;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer > p {
+  font-size: 30%;
+}
+    
+.footer span {
+  display: table-cell;
+  padding: 0px 15px 5px;
+    
+  text-align: center;
+  font-size: 70%;
+}
+    
+.footer span:nth-of-type(1) {
+  text-align: left;
+}
+.footer span:nth-last-child(1) {
+  text-align: right;
+}
+
+.monospace {
+  font-family: "Source Code Pro", monospace, monospace;
+}

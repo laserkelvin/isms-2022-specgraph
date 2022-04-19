@@ -5,11 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>Chemistry in the Interstellar Medium</title>
+	<title>Open Catalyst Project</title>
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
-	<link rel="stylesheet" href="dist/theme/minimalist.css">
+	<link rel="stylesheet" href="dist/theme/mint.css">
 	<link rel="stylesheet" href="dist/theme/skelet.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
@@ -24,635 +24,506 @@
 				<article>
 					<x-grid columns=4 ai="end">
 						<x-col>
-							<h1 class="r-fit-text">Open Catalyst</h1>
-							<h4 style="opacity: 0.95" class="r-fit-text">Project Update</h1>
+							<h2 class="r-fit-text">Open Catalyst Project</h2>
+							<h2 class="r-fit-text">Project Sync</h2>
 						</x-col>
-						<x-col span=2+3>
-
+						<x-col span="2+3">
+							<figure><img src="assets/intel-logo.svg" alt=""></figure>
 						</x-col>
 					</x-grid>
+					<footer style="padding-top: 2vw;">
+						<x-grid columns=3 ai="center">
+							<x-col>
+								<p>Kelvin Lee</p>
+								<em>HPC AI for Science Working Group</em>
+							</x-col>
+						</x-grid>
+					</footer>
 				</article>
 			</section>
 			<section>
-				<h2>Open Catalyst Project progress</h2>
-				<x-grid columns="2" ai="end">
+				<x-grid columns="3" ai="center">
 					<x-col>
-						<figure class="fragment">
-							<img src="https://opencatalystproject.org/assets/images/og_image.png" style="height: 8vw">
-							<!-- <video data-autoplay alt="" height="100">
-								<source src="https://opencatalystproject.org/assets/videos/singlerandom_system.mp4">
-							</video> -->
-							<caption>
-								<p>Open Catalyst Project as HPC MLPerf workload</p>
-							</caption>
-						</figure>
+						<h1>TOC</h1>
 					</x-col>
-					<x-col>
-						<figure class="fragment">
-							<img src="assets/pyg-gnn-bottleneck.png" alt="">
-							<caption>
-								<p>Core GNN computation limited by single-threaded CPU PyTorch primitive</p>
-							</caption>
-						</figure>
-					</x-col>
-					<x-col>
-						<figure class="fragment">
-							<img src="assets/dgl-single-proc.gif" alt="">
-							<caption>
-								<p>Porting OCP models to DGL takes advantage of <code>libxsmm</code> GSpMM kernels</p>
-							</caption>
-						</figure>
-					</x-col>
-					<x-col>
-						<div class="fragment">
-							<pre><code>import pytorch_lightning as pl
-
-model = OCPLitModule()
-data_module = GraphDataModule()
-
-trainer = pl.Trainer(
-	strategy="ddp", accelerator="cpu", num_processes=4,
-	num_nodes=2, max_epochs=1, profiler="pytorch"
-)
-
-trainer.fit(model, data_module)</code></pre>
-							<p>Bringing OCP up to MLOps best practices for scalability, portability, and maintability
-							</p>
-						</div>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="2" ai="end">
-					<x-col>
-						<figure>
-							<img src="https://laserkelvin.github.io/isms-2021/assets/graphs/graph_subsampling.png"
-								alt="">
-							<caption>
-								<em>Partition function estimation from incomplete graphs</em>
-								<p>UC Davis</p>
-							</caption>
-						</figure>
-					</x-col>
-					<x-col>
-						<figure>
-							<img src="https://pubs.acs.org/na101/home/literatum/publisher/achs/journals/content/acscii/2019/acscii.2019.5.issue-9/acscentsci.9b00576/20190918/images/medium/oc9b00576_0009.gif"
-								alt="">
-							<caption>
-								<em>Automated reaction generation with transformers</em>
-								<p>UVa</p>
-							</caption>
-						</figure>
-					</x-col>
-					<x-col>
-						<em>Polymer radical/ionic liquids design with AI</em>
-						<p>TAMU</p>
-					</x-col>
-					<x-col>
-						<em>Replacing bespoke malaria models with neural networks</em>
-						<p>GF/IDM</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns=4 ai="center">
-					<x-col>
-						<h2>Open Catalyst Recap</h2>
-					</x-col>
-					<x-col span=2+3>
+					<x-col span="2+2">
 						<ol>
-							<li>Implemented with PyTorch, PyTorch Geometric</li>
-							<li>Single-threaded <code>scatter-gather</code> implementation </li>
-							<li>Deep Graph Library has first class CPU support</li>
-							<li>Potential collaboration with Intel Labs (Marcel Nassar <em>et al</em>.) </li>
+							<li>Last time on OCP</li>
+							<li>DimeNet++ architecture</li>
+							<li>Single node profiling</li>
 						</ol>
 					</x-col>
 				</x-grid>
 			</section>
 			<section>
-				<x-grid columns=5 ai="center">
-					<x-col>
-						<h2>Framework comparisons</h2>
-					</x-col>
-					<x-col span=2+2>
-						<h2>PyG</h2>
-						<ul>
-							<li>CUDA centric, unoptimized CPU kernels</li>
-							<li>Undirected monograph basis</li>
-							<li>Plethora of models</li>
-						</ul>
-					</x-col>
-					<x-col span=4+2>
-						<h2>DGL</h2>
-						<ul>
-							<li>Supports CUDA, but also uses <code>libxsmm</code></li>
-							<li>Directed graph representation</li>
-							<li>Few models and layers implemented</li>
-						</ul>
-					</x-col>
-				</x-grid>
+				<section>
+					<h2>Last time on OCP</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>PyTorch Lightning refactor</p>
+							<em>Data, model, distributed abstraction</em>
+						</x-col>
+						<x-col>
+							<p>Working training pipeline with DGL</p>
+						</x-col>
+						<x-col>
+							<p>Qualitative throughput improvement with <span class="monospace">GCNConv</span></p>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<x-grid columns="2" ai="top">
+						<x-col>
+							<p>YAML pipeline configuration</p>
+							<pre><code>model:
+		gnn: 
+		class_path: ocpmodels.models.dimenetpp_dgl.DimeNetPP
+		init_args:
+			emb_size: 128
+			out_emb_size: 256
+			int_emb_size: 64
+			basis_emb_size: 8
+			num_blocks: 3
+			num_spherical: 7
+			num_radial: 6
+			cutoff: 10.
+			envelope_exponent: 5.0
+			activation: torch.nn.SiLU
+		regress_forces: False
+		normalize_kwargs:
+		target_mean: -0.7554450631141663
+		target_std: 2.887317180633545
+		grad_target_mean: 0.0
+		grad_target_std: 2.887317180633545
+	data:
+		class_path: ocpmodels.lightning.data.DGLDataModule
+		init_args:
+		train_path: "../data/s2ef/200k/train"
+		batch_size: 32
+		num_workers: 8
+	optimizer:
+		class_path: torch.optim.Adam
+		init_args:
+		lr: 0.0005
+	lr_scheduler:
+		class_path: torch.optim.lr_scheduler.ExponentialLR
+		init_args:
+		gamma: 0.1
+	trainer:
+		max_steps: 100
+		limit_val_batches: 0
+		limit_test_batches: 0
+		limit_predict_batches: 0
+		accelerator: "cpu"
+		num_nodes: 1
+		num_processes: 1
+		strategy: null
+		profiler: "pytorch"
+	seed_everything: 42</code></pre>
+						</x-col>
+						<x-col>
+							<p>Lightning CLI</p>
+							<pre><code>python -m ocpmodels.lightning.s2ef fit --config dimenetpp.yml</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
 			</section>
 			<section>
-				<x-grid columns=5>
-					<x-col>
-						<h2>Installation</h2>
-					</x-col>
-					<x-col span=2+2>
-						<h2>PyG</h2>
-						<pre><code>pip install torch-sparse \
-	torch-scatter \
-	torch-cluster \
-	torch-spline-conv
+				<section>
+					<h2>DimeNet++ architecture</h2>
+				</section>
+				<section>
+					<h2>What is DimeNet?</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<ul>
+								<li>Directional message passing model</li>
+								<li>Uses Gaussian and Bessel basis functions for invariance</li>
+								<li>All of the complexity for incremental predictive performance</li>
+							</ul>
+						</x-col>
+						<x-col span="2+2">
+							<figure>
+								<img src="assets/dimenetpp.png" alt="">
+								<caption>
+									<p>Block diagrams for DimeNet++</p>
+								</caption>
+							</figure>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<p>Implementation from <a href="https://github.com/xnuohz/DimeNet-dgl">xnuohz/DimeNet-dgl</a></p>
+					<p>Refactors by me to support OCP</p>
+				</section>
+				<section>
+					<x-grid columns="3" ai="center">
+						<x-col span="1+2">
+							<pre><code>def forward(self, g: dgl.DGLGraph) -> torch.Tensor:
+	g = self.edge_distance(g)
+	l_g = self._create_line_graph(g)
+	# add rbf features for each edge in one batch graph, [num_radial,]
+	g = self.rbf_layer(g)
+	# Embedding block
+	g = self.emb_block(g)
+	# Output block
+	P = self.output_blocks[0](g)  # [batch_size, num_targets]
+	# Prepare sbf feature before the following blocks
+	for k, v in g.edata.items():
+		l_g.ndata[k] = v
 
-pip install torch-geometric
-</code></pre>
-					</x-col>
-					<x-col span="4+2">
-						<h2>
-							DGL
-						</h2>
-						<pre><code>conda install -c dglteam dgl</code></pre>
-						<p>Bundles <code>libxsmm</code> and OpenBLAS</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="2">
-					<x-col>
-						<h2>PyG</h2>
-						<p>
-						<pre>
-								<code>from torch.nn import Linear, ReLU
-from torch_geometric.nn import Sequential, GCNConv
-
-model = Sequential('x, edge_index', [
-	(GCNConv(in_channels, 64), 'x, edge_index -> x'),
-	ReLU(inplace=True),
-	(GCNConv(64, 64), 'x, edge_index -> x'),
-	ReLU(inplace=True),
-	Linear(64, out_channels),
-])
-
-# pass node features and edges
-model.forward(x, edge_index)</code>
-							</pre>
-						</p>
-					</x-col>
-					<x-col>
-						<h2>
-							DGL
-						</h2>
-						<p>
-						<pre>
-							<code>from torch.nn import Linear, RELU
-from dgl.nn.pytorch import Sequential, GraphConv
-
-model = Sequential(
-	GraphConv(in_channels, 64, activation=RELU),
-	GraphConv(64, 64, activation=RELU),
-	Linear(64, out_channels)
-)
-
-# pass a DGL graph and node features
-x = graph.ndata["x"]
-model.forward(graph, x)</code>
-						</pre>
-						</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns=7>
-					<x-col>
-						<p>
-							For data:
-						</p>
-						<ul>
-							<li>Node features <code>x</code></li>
-							<li>Edge indices <code>A, B</code></li>
-							<li>Graph labels/targets <code>y</code></li>
-						</ul>
-					</x-col>
-					<x-col span="2+3">
-						<h2>PyG</h2>
-						<pre><code>from torch_geometric.data import Data, Batch
-
-# shape [2, E] for E edges
-edge_index = torch.stack([A, B])
-
-graph = Data(
-	x=x,
-	y=y,
-	edge_index=edge_index
-)
-
-# generate monolithic block graph
-batch = Batch.from_data_list(
-	[graph, graph, graph, graph]
-)
-# attribute index for nodes to graphs within a batch
-batch.batch</code></pre>
-					</x-col>
-					<x-col span="5+3">
-						<h2>DGL</h2>
-						<pre><code>from dgl import graph, batch
-
-# create graph from edges
-g = graph((A, B))
-g.ndata["x"] = x
-
-b = batch([g, g, g, g])</code></pre>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns=2 ai="center">
-					<x-col>
-						<img src="assets/mpi-ocp-top.gif" type="video/gif">
-					</x-col>
-					<x-col>
-						<p><code>scatter-gather</code> spends most of its time on single thread compute</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h2>DGL performance test</h2>
-					</x-col>
-					<x-col span="2+2">
-						<ul>
-							<li>Random graphs generated on the fly with:
-								<ul>
-									<li>100&ndash;400 nodes</li>
-									<li>200&ndash;800 edges</li>
-									<li>Batch size of 64</li>
-								</ul>
-							</li>
-							<li>Sky Lake on Diamond, <code>OMP_NUM_THREADS=26</code></li>
-							<li><code>numactl -m 0 python run.py</code> </li>
-						</ul>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="2" ai="center">
-					<x-col>
-						<pre><code>| Name        | Type                   | Params
--------------------------------------------------------
-0 | layers      | ModuleList             | 136 K 
-1 | layers.0    | SAGEConv               | 45.3 K
-2 | layers.1    | SAGEConv               | 34.3 K
-3 | layers.2    | SAGEConv               | 24.8 K
-4 | layers.3    | SAGEConv               | 16.8 K
-5 | layers.4    | SAGEConv               | 10.4 K
-6 | layers.5    | SAGEConv               | 5.5 K 
-7 | gap         | GlobalAttentionPooling | 33    
-8 | gap.gate_nn | Linear                 | 33    
-9 | loss        | MSELoss                | 0     
--------------------------------------------------------
-136 K     Trainable params
-0         Non-trainable params
-136 K     Total params
-0.548     Total estimated model params size (MB)
-											</code></pre>
-					</x-col>
-					<x-col>
-						<p>
-							Number of nodes per batch: ~15,000
-						</p>
-						<p>
-							Number of edges per batch: ~70,000
-						</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns=2 ai="center">
-					<x-col>
-						<img src="assets/dgl-single-proc.gif" type="video/gif">
-					</x-col>
-					<x-col>
-						<p>Single process</p>
-						<p>Consistent multithreading on graph ops!</p>
-						<p>~260 graphs per second</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h2>Modernizing Open Catalyst</h2>
-					</x-col>
-					<x-col span="2+2">
-						<p>Significant portion of OCP is boilerplate</p>
-						<p>~33,000 lines of code</p>
-						<p>Highly opaque and sparse documentation on implementations and interfaces</p>
-						<p>Move to generalized, modern MLOps framework like PyTorch Lightning</p>
-						<p>Advantages of cleaner code for development, scalability, and usability on different
-							accelerators</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="5">
-					<x-col span="1+2">
-						<pre><code>├── common
-│   ├── data_parallel.py
-│   ├── distutils.py
-│   ├── flags.py
-│   ├── hpo_utils.py
-│   ├── __init__.py
-│   ├── logger.py
-│   ├── registry.py
-│   ├── relaxation
-│   ├── transforms.py
-│   └── utils.py
-├── datasets
-│   ├── embeddings
-│   ├── __init__.py
-│   ├── single_point_lmdb.py
-│   └── trajectory_lmdb.py
-├── __init__.py
-├── models
-│   ├── base.py
-│   ├── cgcnn.py
-│   ├── dimenet_plus_plus.py
-│   ├── dimenet.py
-│   ├── egnn
-│   ├── forcenet.py
-│   ├── gemnet
-│   ├── __init__.py
-│   ├── schnet_dgl.py
-│   ├── schnet.py
-│   ├── spinconv.py
-│   └── utils
-├── modules
-│   ├── evaluator.py
-│   ├── exponential_moving_average.py
-│   ├── __init__.py
-│   ├── loss.py
-│   ├── normalizer.py
-│   └── scheduler.py
-├── preprocessing
-│   ├── atoms_to_graphs.py
-│   ├── __init__.py
-├── tasks
-│   ├── __init__.py
-│   └── task.py
-└── trainers
-	├── base_trainer.py
-	├── energy_trainer.py
-	├── forces_trainer_dgl.py
-	├── forces_trainer.py
-	└── __init__.py
-							</code></pre>
-					</x-col>
-					<x-col span="3+2">
-						<pre><code>├── __init__.py
-├── lightning
-│   ├── data.py
-│   ├── __init__.py
-│   ├── registry.py
-│   ├── s2ef.py
-│   ├── is2re.py
-│   └── tests
-├── models
-│   ├── base.py
-│   ├── cgcnn.py
-│   ├── dimenet_plus_plus.py
-│   ├── dimenet.py
-│   ├── egnn
-│   ├── forcenet.py
-│   ├── gemnet
-│   ├── __init__.py
-│   ├── schnet_dgl.py
-│   ├── schnet.py
-│   ├── spinconv.py
-│   └── utils
-├── modules
-│   ├── evaluator.py
-│   ├── exponential_moving_average.py
-│   ├── __init__.py
-│   ├── loss.py
-│   ├── normalizer.py
-├── preprocessing
-│   ├── atoms_to_graphs.py
-│   ├── __init__.py
-							</code></pre>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h2>Dataloading</h2>
-					</x-col>
-					<x-col span="2+2">
-						<pre><code>
-import pytorch_lightning as pl
-
-class GraphDataModule(pl.LightningDataModule):
-	...
-	def setup(self, stage: Union[str, None] = None) -> None:
-        self.data_splits = {}
-        # set up each of the dataset splits
-        for key, path in self.paths.items():
-            self.data_splits[key] = self.dataset_class(
-                root_path=path, name=key
-            )
-
-	def train_dataloader(self):
-		split = self.data_splits.get("train")
-		return self.loader_func(
-			split,
-			shuffle=True,
-			num_workers=self.num_workers,
-			batch_size=self.batch_size,
-			collate_fn=self.collate_fn,
+	l_g.apply_edges(self.edge_init)
+	# Interaction blocks
+	for i in range(self.num_blocks):
+		g = self.interaction_blocks[i](g, l_g)
+		P += self.output_blocks[i + 1](g)
+	return P</code></pre>
+						</x-col>
+						<x-col>
+							<ol>
+								<li>Compute interatomic distances from Cartesians</li>
+								<li>Expand Gaussian/Bessel basis</li>
+								<li>Compute message passing and MLP blocks</li>
+								<li>Output energy</li>
+							</ol>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Basis functions</h2>
+					<x-grid columns="3">
+						<x-col>
+							<p>
+								Initialize edge distance properties from atom positions
+							</p>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>graph.apply_edges(
+	lambda edge: {'r': (edge.src['pos'] - edge.dst['pos']).pow(2.).sum(dim=1)}
+)</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Radial basis functions</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>Expand in enveloped Gaussian basis</p>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>def forward(self, g: dgl.DGLGraph) -> dgl.DGLGraph:
+	d_scaled = (g.edata['r'] / self.cutoff).unsqueeze(-1)
+	d_cutoff = self.envelope(d_scaled)
+	g.edata['rbf'] = d_cutoff * torch.sin(self.frequencies * d_scaled)
+	return g</code></pre>
+							<pre><code>def forward(self, x: torch.Tensor) -> torch.Tensor:
+	# Envelope function divided by r
+	x_p_0 = x.pow(self.p - 1)
+	x_p_1 = x_p_0 * x
+	x_p_2 = x_p_1 * x
+	env_val = 1 / x + self.a * x_p_0 + self.b * x_p_1 + self.c * x_p_2
+	return env_val</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Angular Bessel basis</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>Lambdify analytic expressions for radial and angular basis</p>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code># convert to torch functions
+x = sym.symbols("x")
+theta = sym.symbols("theta")
+modules = {"sin": torch.sin, "cos": torch.cos}
+for i in range(num_spherical):
+	if i == 0:
+		first_sph = sym.lambdify(
+			[theta], self.sph_harm_formulas[i][0], modules
+		)(0)
+		self.sph_funcs.append(
+			lambda tensor: torch.zeros_like(tensor) + first_sph
 		)
-	
-	def test_dataloader(self):
-        split = self.data_splits.get("test")
-        if split is not None:
-            return self.loader_func(
-                split,
-                shuffle=False,
-                num_workers=self.num_workers,
-                batch_size=self.batch_size,
-                collate_fn=self.collate_fn,
-            )
-        else:
-            warn(f"Test split not defined; not performing testing.")
-            pass
-						</code></pre>
-					</x-col>
-				</x-grid>
+	else:
+		self.sph_funcs.append(
+			sym.lambdify([theta], self.sph_harm_formulas[i][0], modules)
+		)
+	for j in range(num_radial):
+		self.bessel_funcs.append(
+			sym.lambdify([x], self.bessel_formulas[i][j], modules)
+		)</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<x-grid columns="4" ai="center">
+						<x-col span="1+2">
+							<pre><code>def spherical_bessel_formulas(n):
+	"""
+	n: int
+	res: array of shape [n,]
+	n sympy functions
+	Computes the sympy formulas for the spherical bessel functions up to order n (excluded)
+	"""
+	x = sym.symbols("x")
+
+	f = [sym.sin(x) / x]
+	a = sym.sin(x) / x
+	for i in range(1, n):
+		b = sym.diff(a, x) / x
+		f += [sym.simplify(b * (-x) ** i)]
+		a = sym.simplify(b)
+	return f</code></pre>
+						</x-col>
+						<x-col span="3+2">
+							<pre><code>def bessel_basis(n, k):
+	"""
+	n: int
+	k: int
+	res: [n, k]
+	n * k sympy functions
+	Computes the sympy formulas for the normalized and rescaled spherical bessel functions up to
+	order n (excluded) and maximum frequency k (excluded).
+	"""
+
+	zeros = Jn_zeros(n, k)
+	normalizer = []
+	for order in range(n):
+		normalizer_tmp = []
+		for i in range(k):
+			normalizer_tmp += [0.5 * Jn(zeros[order, i], order + 1) ** 2]
+		normalizer_tmp = 1 / np.array(normalizer_tmp) ** 0.5
+		normalizer += [normalizer_tmp]
+
+	f = spherical_bessel_formulas(n)
+	x = sym.symbols("x")
+	bess_basis = []
+	for order in range(n):
+		bess_basis_tmp = []
+		for i in range(k):
+			bess_basis_tmp += [
+				sym.simplify(
+					normalizer[order][i]
+					* f[order].subs(x, zeros[order, i] * x)
+				)
+			]
+		bess_basis += [bess_basis_tmp]
+	return bess_basis</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<x-grid columns="2" ai="center">
+						<x-col>
+							<figure>
+								<img src="assets/radial-bessel.png" alt="">
+								<caption>
+									<p>Radial Bessel basis</p>
+								</caption>
+							</figure>
+						</x-col>
+						<x-col>
+							<figure>
+								<img src="assets/angular-bessel.png" alt="">
+								<caption>
+									<p>Angular Bessel basis</p>
+								</caption>
+							</figure>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Atomic and basis embedding</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>Embed atom and distance information along edges</p>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>g.ndata["h"] = self.embedding(g.ndata["atomic_numbers"].long())</code></pre>
+							<pre><code># transform RBF
+rbf = self.dense_rbf(edges.data["rbf"])
+# concatenate node and rbf embeddings and transform
+m = torch.cat([edges.src["h"], edges.dst["h"], rbf], dim=-1)
+m = self.dense(m)</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Angular basis embedding</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<ol>
+								<li>Create line graph representation of molecule</li>
+								<li>Compute angles between each line graph node (i.e. edges)</li>
+								<li>Expand in spherical Bessel basis</li>
+							</ol>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>def edge_init(self, edges):
+	# Calculate angles k -> j -> i
+	R1, R2 = edges.src["o"], edges.dst["o"]
+	x = torch.sum(R1 * R2, dim=-1)
+	y = torch.cross(R1, R2)
+	y = torch.norm(y, dim=-1)
+	angle = torch.atan2(y, x)
+	# Transform via angles
+	cbf = [f(angle) for f in self.sbf_layer.get_sph_funcs()]
+	cbf = torch.stack(cbf, dim=1)  # [None, 7]
+	cbf = cbf.repeat_interleave(self.num_radial, dim=1)  # [None, 42]
+	# Notice: it's dst, not src
+	sbf = edges.dst["rbf_env"] * cbf  # [None, 42]
+	return {"sbf": sbf}</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Message passing</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<ol>
+								<li>Copy edge data to line graph node data</li>
+								<li>Transform bases and combine as message function</li>
+								<li>Propagate messages, sum reduce</li>
+								<li>Update messages, apply skip connections</li>
+							</ol>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>rbf = self.dense_rbf1(edges.data["rbf"])</code></pre>
+							<pre><code>def msg_func(self, edges):
+	sbf = self.dense_sbf1(edges.data["sbf"])
+	sbf = self.dense_sbf2(sbf)
+	x_kj = edges.src["x_kj"] * sbf
+	return {"x_kj": x_kj}</code></pre>
+							<pre><code>l_g_reverse.update_all(self.msg_func, fn.sum("x_kj", "m_update"))</code></pre>
+							<pre><code>g.edata["m"] = g.edata["m"] + g.edata["m_update"]</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Output blocks</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>Output blocks map edge basis back to nodes and perform readout</p>
+						</x-col>
+						<x-col span="2+2">
+							<pre><code>def forward(self, g):
+	with g.local_scope():
+		g.edata["tmp"] = g.edata["m"] * self.dense_rbf(g.edata["rbf"])
+		g_reverse = dgl.reverse(g, copy_edata=True)
+		g_reverse.update_all(fn.copy_e("tmp", "x"), fn.sum("x", "t"))
+		g.ndata["t"] = self.up_projection(g_reverse.ndata["t"])
+
+		for layer in self.dense_layers:
+			g.ndata["t"] = layer(g.ndata["t"])
+			if self.activation is not None:
+				g.ndata["t"] = self.activation(g.ndata["t"])
+		g.ndata["t"] = self.dense_final(g.ndata["t"])
+		return dgl.readout_nodes(g, "t", op="sum" if self.extensive else "mean")</code></pre>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<x-grid columns="3" ai="center">
+						<x-col span="1+2">
+							<pre><code>def forward(self, g: dgl.DGLGraph) -> torch.Tensor:
+	g = self.edge_distance(g)
+	l_g = self._create_line_graph(g)
+	# add rbf features for each edge in one batch graph, [num_radial,]
+	g = self.rbf_layer(g)
+	# Embedding block
+	g = self.emb_block(g)
+	# Output block
+	P = self.output_blocks[0](g)  # [batch_size, num_targets]
+	# Prepare sbf feature before the following blocks
+	for k, v in g.edata.items():
+		l_g.ndata[k] = v
+
+	l_g.apply_edges(self.edge_init)
+	# Interaction blocks
+	for i in range(self.num_blocks):
+		g = self.interaction_blocks[i](g, l_g)
+		P += self.output_blocks[i + 1](g)
+	return P</code></pre>
+						</x-col>
+						<x-col>
+							<ol>
+								<li>Compute interatomic distances from Cartesians</li>
+								<li>Expand Gaussian/Bessel basis</li>
+								<li>Compute message passing and MLP blocks</li>
+								<li>Output energy</li>
+							</ol>
+						</x-col>
+					</x-grid>
+				</section>
 			</section>
 			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h2>Model definition</h2>
-					</x-col>
-					<x-col span="2+2">
-						<pre><code>
-from torch import nn
-import pytorch_lightning as pl
-
-class AbstractTask(nn.Module):
-
-    __task__ = None
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    @property
-    def num_params(self) -> int:
-        return sum(p.numel() for p in self.parameters())
-
-
-class OCPLitModule(pl.LightningModule):
-
-	__normalize_keys__ = ["target", "grad_target"]
-
-	def __init__(
-		self,
-		model: AbstractTask,
-		normalize_kwargs: Optional[Dict[str, float]] = None,
-	):
-	...
-
-	def step(self, batch, batch_idx, prefix: str = "train") -> float:
-		losses = self._compute_losses(batch, batch_idx)
-		self.log(f"{prefix}_metrics", losses)
-		if prefix != "train":
-		    # run validation/test metrics not needed for training
-		    self._evaluate(batch)
-		return losses.get("total")
-
-	def training_step(self, batch, batch_idx) -> float:
-		return self.step(batch, batch_idx, "train")
-
-	def validation_step(self, batch, batch_idx) -> float:
-		return self.step(batch, batch_idx, "validation")
-
-	def test_step(self, batch, batch_idx) -> float:
-		return self.step(batch, batch_idx, "test")
-
-	def _compute_losses(self, batch, batch_idx) -> Dict[str, float]:
-        graph, labels = batch
-        # TODO this is really sub-optimal; should be collating data out of
-        # data loaders properly
-        true_energies = torch.FloatTensor(
-            [i.label for i in labels], device=graph.device
-        )
-        true_forces = graph.ndata["force"]
-        (pred_energy, pred_force) = self(graph)
-        # grab coefficients to scale losses
-        energy_scale, force_scale = (
-            self.scalers.get("energy", 1.0),
-            self.scalers.get("force", 30.0),
-        )
-        # normalize the targets before loss computation
-        true_energies = self.normalizers["target"].norm(true_energies)
-        true_forces = self.normalizers["grad_target"].norm(true_forces)
-        # compute energy and force losses
-        energy_loss = (
-            self.energy_loss(pred_energy, true_energies) * energy_scale
-        )
-        force_loss = self.force_loss(pred_force, true_forces) * force_scale
-        # package the losses into a dictionary for logging
-        loss_dict = {"energy": energy_loss, "force": force_loss}
-        for key in loss_dict.keys():
-            loss_dict[key] *= self.scalers.get(key)
-        loss_dict["total"] = sum([value for value in loss_dict.values()])
-        return loss_dict
-					</code></pre>
-					</x-col>
-				</x-grid>
+				<section>
+					<figure><img src="assets/dimenet_block.svg" alt="" style="height: auto; max-width: 30%;">
+					</figure>
+				</section>
+				<section>
+					<h2>PyTorch profiling</h2>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>PyTorch 1.11.0+MKL+OMP</p>
+						</x-col>
+						<x-col>
+							<p>DGL <span class="monospace">0.8.0post2</span></p>
+						</x-col>
+						<x-col>
+							<p>OCP <span class="monospace">37d6f7f</span></p>
+						</x-col>
+						<x-col>
+							<p>Batch size 16</p>
+						</x-col>
+						<x-col>
+							<p>Single process, NUMA aware</p>
+						</x-col>
+						<x-col>
+							<p>4 data loaders</p>
+						</x-col>
+					</x-grid>
+					<em>No PyG baseline for CPU; memory allocation issues for DimeNet++</em>
+				</section>
 			</section>
 			<section>
-				<x-grid columns="3" ai="center">
+				<h2>Laundry list</h2>
+				<hr>
+				<x-grid columns="2" ai="top">
 					<x-col>
-						<h2>Training script</h2>
+						<h3>Performance</h3>
+						<ul>
+							<li>Theoretical FLOPS model for DimeNet++</li>
+							<li>Compare with <span class="monospace">DeepSpeed</span> FLOPS profile</li>
+							<li>Roofline analysis</li>
+							<li>CUDA PyG and DGL baseline</li>
+						</ul>
 					</x-col>
-					<x-col span="2+2">
-						<pre><code># run.py
-import pytorch_lightning as pl
-
-model = OCPLitModule()
-
-data_module = GraphDataModule()
-
-trainer = pl.Trainer(
-	strategy="ddp", accelerator="cpu", num_processes=4,
-	num_nodes=2, max_epochs=1, profiler="pytorch"
-)
-
-trainer.fit(model, data_module)
-					</code></pre>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="3" ai="center">
 					<x-col>
-						<h2>Experimental CLI</h2>
-					</x-col>
-					<x-col span="2+2">
-						<p>Launch with <code>python -m ocpmodels.cli fit --config config.yaml</code></p>
-						<pre><code>model:
-	class_path: ocpmodels.models.DimeNetPP
-	init_args:
-		in_channels: 5
-		out_channels: 128
-		out_dim: 3
-		num_conv: 3
-		fc_out_dim: 128
-		num_fc_layers: 3
-		activation: torch.nn.SiLU
-data:
-	class_path: ocpmodels.lightning.data.GraphDataModule
-	init_args:
-		target: "200k"
-		batch_size: 8
-		test_size: 0.2
-		val_size: 0.2
-		num_workers: 1
-trainer:
-	max_epochs: 20
-	num_nodes: 1
-	num_processes: 4
-	strategy: "ddp"
-	accelerator: "cpu"
-optimizer:
-	class_path: torch.optim.Adam
-	init_args:
-		lr: 0.01
-lr_scheduler:
-	class_path: torch.optim.lr_scheduler.CosineAnnealingLR
-	init_args:
-		T_max: 50
-seed_everything: 21951</code></pre>
-						<p>Use SigOpt for logging and hyperparameter tuning</p>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h2>Progress</h2>
-					</x-col>
-					<x-col span="2+2">
-						<p>DGL/Lightning data modules ⭕</p>
-						<p>OCP data loading ⭕</p>
-						<p>SchNet implementation ❎</p>
-						<p><a href="https://github.com/xnuohz/DimeNet-dgl/tree/master/modules">DimeNet++
-								implementation</a> 🚧</p>
+						<h3>Science</h3>
+						<ul>
+							<li>Fix numerical overflow in radial basis</li>
+							<li>Raise DGL double backprop issue</li>
+							<li>Multinode training</li>
+						</ul>
 					</x-col>
 				</x-grid>
 			</section>
 		</div>
+	</div>
+	<div id="slide-footer" class="footer">
+		<x-grid columns="3" ai="center">
+			<x-col>
+				<small>Intel Confidential</small>
+			</x-col>
+			<x-col>
+				<small>Intel AXG&middot;HPC EUE</small>
+			</x-col>
+			<x-col>
+				<small>Kelvin Lee</small>
+			</x-col>
+		</x-grid>
 	</div>
 
 	<script src="plugin/skelet/app.js"></script>
@@ -663,6 +534,21 @@ seed_everything: 21951</code></pre>
 	<script src="plugin/highlight/highlight.js"></script>
 	<script src="plugin/math/math.js"></script>
 	<script src="plugin/zoom/zoom.js"></script>
+	<script type="text/javascript">
+		window.addEventListener("load", function () {
+
+			revealDiv = document.querySelector("body div.reveal")
+			footer = document.getElementById("slide-footer");
+			revealDiv.appendChild(footer);
+
+		});
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+	<script>
+		mermaid.initialize({
+			startOnLoad: true,
+		});
+	</script>
 	<script>
 		// More info about initialization & config:
 		// - https://revealjs.com/initialization/
@@ -673,13 +559,13 @@ seed_everything: 21951</code></pre>
 			transition: 'fade',
 			transitionSpeed: 'slow',
 			controlsLayout: 'edges',
+			viewDistance: 50,
+			preloadIframes: true,
 			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom]
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom],
+			dependencies: [{ src: 'plugin/mermaid/mermaid.js' }]
 		});
 	</script>
 </body>
-<footer>
-	<p>Huerrangklaemg</p>
-</footer>
 
 </html>
