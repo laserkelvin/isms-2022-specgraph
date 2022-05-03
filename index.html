@@ -48,467 +48,207 @@
 					</x-col>
 					<x-col span="2+2">
 						<ol>
-							<li>Last time on OCP</li>
-							<li>DimeNet++ architecture</li>
-							<li>Single node profiling</li>
+							<li>Profiling OCP workflow</li>
+							<li>Single process profiling</li>
+							<li>Multi process profiling</li>
 						</ol>
 					</x-col>
 				</x-grid>
 			</section>
 			<section>
 				<section>
-					<h2>Last time on OCP</h2>
-					<x-grid columns="3" ai="center">
+					<x-grid columns="4" ai="center">
 						<x-col>
-							<p>PyTorch Lightning refactor</p>
-							<em>Data, model, distributed abstraction</em>
+							<h2>The
+								BAPP package
+							</h2>
+							<em>
+								Bookkeeping AI Profiling with Python
+							</em>
 						</x-col>
-						<x-col>
-							<p>Working training pipeline with DGL</p>
-						</x-col>
-						<x-col>
-							<p>Qualitative throughput improvement with <span class="monospace">GCNConv</span></p>
+						<x-col span="2+3">
+							<p>Simple CLI for reproducible profiling and data collection</p>
+							<ul>
+								<li>Aggregates and reports multiple data sources into JSON format</li>
+								<ul>
+									<li>Environment variables/SLURM configuration</li>
+									<li>Software configuration</li>
+									<li>Hardware configuration</li>
+								</ul>
+								<li>Extensive hash tracking for data control</li>
+								<li>Supports framework profiling and VTune</li>
+							</ul>
 						</x-col>
 					</x-grid>
+				</section>
+				<section>
+					<h2>PyTorch profiler</h2>
+					<hr>
+					<x-grid columns="3" ai="top">
+						<x-col>
+							<h3>Step 1</h3>
+							<p><small>Write minimal profiling script</small></p>
+							<pre><code># use default settings for DimeNet++
+dpp = DimeNetPP(**model_config)
+# wrap in PyTorch Lightning module; disable force computation until
+# we can address the double backprop
+model = S2EFLitModule(dpp, regress_forces=False)
+
+# initialize PyTorch profiler through the PyTorch lightning interface
+profiler = PyTorchProfiler(
+	dirpath=pp,
+	group_by_input_shapes=True,
+	wait=0,
+	warmup=0,
+	active=10,
+	repeat=3,
+	profile_memory=True,
+	with_stack=True,
+	with_flops=True,
+)
+
+data_module = DGLDataModule(
+	"../data/s2ef/200k/train",
+	batch_size=config.get("batch_size"),
+	num_workers=config.get("num_workers"),
+)
+trainer = Trainer(
+    accelerator="cpu",
+    strategy="ddp" if num_procs > 1 else None,
+    num_processes=num_procs,
+    num_nodes=1,
+    max_steps=20,
+    logger=False,
+    log_every_n_steps=100,
+    enable_progress_bar=False,
+    enable_checkpointing=False,
+    profiler=profiler,
+    num_sanity_val_steps=0,
+    enable_model_summary=True,
+)
+
+trainer.fit(model, datamodule=data_module)</code></pre>
+						</x-col>
+						<x-col span="2+2">
+							<h3>Step 2</h3>
+							<p><small>Configure profiling and data collection</small></p>
+							<pre><code>task: frameworkprofiling
+binary: numactl -C 0-35 -m 0 python lit_dimenetpp.py
+profile_dir: pt-profile
+requested_specs:
+	- lscpu
+	- conda
+	- environment
+	- pytorch
+aux_files:
+	config: bapp_pt_profile.yml
+	script: lit_dimenetpp.py
+env_vars:
+	OMP_NUM_THREADS: 36
+	BATCHSIZE: 16
+	NUM_PROCS: 1
+	NUM_WORKERS: 0
+	SEED: 1205</code></pre>
+							<h3>Step 3</h3>
+							<p><small><code>python -m bapp.cli bapp_pt_profile.yml</code></small></p>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>BAPP organization</h2>
+					<p>Data collection organized in hierarchical manner:</p>
+					<ol>
+						<li>Task (i.e. <code>FrameworkProfiling</code>/<code>vtune</code> </li>
+						<li>Git commit hash</li>
+						<li>Configuration hash</li>
+						<li>Collection (in the case of VTune)</li>
+					</ol>
+					<p>Prevents redundant code/configuration runs, traceable configurations</p>
 				</section>
 				<section>
 					<x-grid columns="2" ai="top">
 						<x-col>
-							<p>YAML pipeline configuration</p>
-							<pre><code>model:
-		gnn: 
-		class_path: ocpmodels.models.dimenetpp_dgl.DimeNetPP
-		init_args:
-			emb_size: 128
-			out_emb_size: 256
-			int_emb_size: 64
-			basis_emb_size: 8
-			num_blocks: 3
-			num_spherical: 7
-			num_radial: 6
-			cutoff: 10.
-			envelope_exponent: 5.0
-			activation: torch.nn.SiLU
-		regress_forces: False
-		normalize_kwargs:
-		target_mean: -0.7554450631141663
-		target_std: 2.887317180633545
-		grad_target_mean: 0.0
-		grad_target_std: 2.887317180633545
-	data:
-		class_path: ocpmodels.lightning.data.DGLDataModule
-		init_args:
-		train_path: "../data/s2ef/200k/train"
-		batch_size: 32
-		num_workers: 8
-	optimizer:
-		class_path: torch.optim.Adam
-		init_args:
-		lr: 0.0005
-	lr_scheduler:
-		class_path: torch.optim.lr_scheduler.ExponentialLR
-		init_args:
-		gamma: 0.1
-	trainer:
-		max_steps: 100
-		limit_val_batches: 0
-		limit_test_batches: 0
-		limit_predict_batches: 0
-		accelerator: "cpu"
-		num_nodes: 1
-		num_processes: 1
-		strategy: null
-		profiler: "pytorch"
-	seed_everything: 42</code></pre>
+							<pre><code>b8a4674/
+└── 4619fab/
+	├── bapp.log
+	├── bapp_pt_profile.yml
+	├── lit_dimenetpp.py
+	├── profile
+	│   └── fit-training_step.1651520873629.pt.trace.json
+	└── specifications
+		├── Conda.json
+		├── Environment.json
+		├── LSCPU.json
+		└── PyTorch.json
+
+3 directories, 8 files
+</code></pre>
 						</x-col>
 						<x-col>
-							<p>Lightning CLI</p>
-							<pre><code>python -m ocpmodels.lightning.s2ef fit --config dimenetpp.yml</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-			</section>
-			<section>
-				<section>
-					<h2>DimeNet++ architecture</h2>
-				</section>
-				<section>
-					<h2>What is DimeNet?</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
+							<p>Capture and store specifciations</p>
 							<ul>
-								<li>Directional message passing model</li>
-								<li>Uses Gaussian and Bessel basis functions for invariance</li>
-								<li>All of the complexity for incremental predictive performance</li>
+								<li>Conda environment and packages</li>
+								<li>Environment variables set (includes SLURM)</li>
+								<li>CPU specifications</li>
+								<li>Framework build arguments</li>
 							</ul>
 						</x-col>
-						<x-col span="2+2">
-							<figure>
-								<img src="assets/dimenetpp.png" alt="">
-								<caption>
-									<p>Block diagrams for DimeNet++</p>
-								</caption>
-							</figure>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<p>Implementation from <a href="https://github.com/xnuohz/DimeNet-dgl">xnuohz/DimeNet-dgl</a></p>
-					<p>Refactors by me to support OCP</p>
-				</section>
-				<section>
-					<x-grid columns="3" ai="center">
-						<x-col span="1+2">
-							<pre><code>def forward(self, g: dgl.DGLGraph) -> torch.Tensor:
-	g = self.edge_distance(g)
-	l_g = self._create_line_graph(g)
-	# add rbf features for each edge in one batch graph, [num_radial,]
-	g = self.rbf_layer(g)
-	# Embedding block
-	g = self.emb_block(g)
-	# Output block
-	P = self.output_blocks[0](g)  # [batch_size, num_targets]
-	# Prepare sbf feature before the following blocks
-	for k, v in g.edata.items():
-		l_g.ndata[k] = v
-
-	l_g.apply_edges(self.edge_init)
-	# Interaction blocks
-	for i in range(self.num_blocks):
-		g = self.interaction_blocks[i](g, l_g)
-		P += self.output_blocks[i + 1](g)
-	return P</code></pre>
-						</x-col>
-						<x-col>
-							<ol>
-								<li>Compute interatomic distances from Cartesians</li>
-								<li>Expand Gaussian/Bessel basis</li>
-								<li>Compute message passing and MLP blocks</li>
-								<li>Output energy</li>
-							</ol>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Basis functions</h2>
-					<x-grid columns="3">
-						<x-col>
-							<p>
-								Initialize edge distance properties from atom positions
-							</p>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>graph.apply_edges(
-	lambda edge: {'r': (edge.src['pos'] - edge.dst['pos']).pow(2.).sum(dim=1)}
-)</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Radial basis functions</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<p>Expand in enveloped Gaussian basis</p>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>def forward(self, g: dgl.DGLGraph) -> dgl.DGLGraph:
-	d_scaled = (g.edata['r'] / self.cutoff).unsqueeze(-1)
-	d_cutoff = self.envelope(d_scaled)
-	g.edata['rbf'] = d_cutoff * torch.sin(self.frequencies * d_scaled)
-	return g</code></pre>
-							<pre><code>def forward(self, x: torch.Tensor) -> torch.Tensor:
-	# Envelope function divided by r
-	x_p_0 = x.pow(self.p - 1)
-	x_p_1 = x_p_0 * x
-	x_p_2 = x_p_1 * x
-	env_val = 1 / x + self.a * x_p_0 + self.b * x_p_1 + self.c * x_p_2
-	return env_val</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Angular Bessel basis</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<p>Lambdify analytic expressions for radial and angular basis</p>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code># convert to torch functions
-x = sym.symbols("x")
-theta = sym.symbols("theta")
-modules = {"sin": torch.sin, "cos": torch.cos}
-for i in range(num_spherical):
-	if i == 0:
-		first_sph = sym.lambdify(
-			[theta], self.sph_harm_formulas[i][0], modules
-		)(0)
-		self.sph_funcs.append(
-			lambda tensor: torch.zeros_like(tensor) + first_sph
-		)
-	else:
-		self.sph_funcs.append(
-			sym.lambdify([theta], self.sph_harm_formulas[i][0], modules)
-		)
-	for j in range(num_radial):
-		self.bessel_funcs.append(
-			sym.lambdify([x], self.bessel_formulas[i][j], modules)
-		)</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<x-grid columns="4" ai="center">
-						<x-col span="1+2">
-							<pre><code>def spherical_bessel_formulas(n):
-	"""
-	n: int
-	res: array of shape [n,]
-	n sympy functions
-	Computes the sympy formulas for the spherical bessel functions up to order n (excluded)
-	"""
-	x = sym.symbols("x")
-
-	f = [sym.sin(x) / x]
-	a = sym.sin(x) / x
-	for i in range(1, n):
-		b = sym.diff(a, x) / x
-		f += [sym.simplify(b * (-x) ** i)]
-		a = sym.simplify(b)
-	return f</code></pre>
-						</x-col>
-						<x-col span="3+2">
-							<pre><code>def bessel_basis(n, k):
-	"""
-	n: int
-	k: int
-	res: [n, k]
-	n * k sympy functions
-	Computes the sympy formulas for the normalized and rescaled spherical bessel functions up to
-	order n (excluded) and maximum frequency k (excluded).
-	"""
-
-	zeros = Jn_zeros(n, k)
-	normalizer = []
-	for order in range(n):
-		normalizer_tmp = []
-		for i in range(k):
-			normalizer_tmp += [0.5 * Jn(zeros[order, i], order + 1) ** 2]
-		normalizer_tmp = 1 / np.array(normalizer_tmp) ** 0.5
-		normalizer += [normalizer_tmp]
-
-	f = spherical_bessel_formulas(n)
-	x = sym.symbols("x")
-	bess_basis = []
-	for order in range(n):
-		bess_basis_tmp = []
-		for i in range(k):
-			bess_basis_tmp += [
-				sym.simplify(
-					normalizer[order][i]
-					* f[order].subs(x, zeros[order, i] * x)
-				)
-			]
-		bess_basis += [bess_basis_tmp]
-	return bess_basis</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<x-grid columns="2" ai="center">
-						<x-col>
-							<figure>
-								<img src="assets/radial-bessel.png" alt="">
-								<caption>
-									<p>Radial Bessel basis</p>
-								</caption>
-							</figure>
-						</x-col>
-						<x-col>
-							<figure>
-								<img src="assets/angular-bessel.png" alt="">
-								<caption>
-									<p>Angular Bessel basis</p>
-								</caption>
-							</figure>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Atomic and basis embedding</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<p>Embed atom and distance information along edges</p>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>g.ndata["h"] = self.embedding(g.ndata["atomic_numbers"].long())</code></pre>
-							<pre><code># transform RBF
-rbf = self.dense_rbf(edges.data["rbf"])
-# concatenate node and rbf embeddings and transform
-m = torch.cat([edges.src["h"], edges.dst["h"], rbf], dim=-1)
-m = self.dense(m)</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Angular basis embedding</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<ol>
-								<li>Create line graph representation of molecule</li>
-								<li>Compute angles between each line graph node (i.e. edges)</li>
-								<li>Expand in spherical Bessel basis</li>
-							</ol>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>def edge_init(self, edges):
-	# Calculate angles k -> j -> i
-	R1, R2 = edges.src["o"], edges.dst["o"]
-	x = torch.sum(R1 * R2, dim=-1)
-	y = torch.cross(R1, R2)
-	y = torch.norm(y, dim=-1)
-	angle = torch.atan2(y, x)
-	# Transform via angles
-	cbf = [f(angle) for f in self.sbf_layer.get_sph_funcs()]
-	cbf = torch.stack(cbf, dim=1)  # [None, 7]
-	cbf = cbf.repeat_interleave(self.num_radial, dim=1)  # [None, 42]
-	# Notice: it's dst, not src
-	sbf = edges.dst["rbf_env"] * cbf  # [None, 42]
-	return {"sbf": sbf}</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Message passing</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<ol>
-								<li>Copy edge data to line graph node data</li>
-								<li>Transform bases and combine as message function</li>
-								<li>Propagate messages, sum reduce</li>
-								<li>Update messages, apply skip connections</li>
-							</ol>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>rbf = self.dense_rbf1(edges.data["rbf"])</code></pre>
-							<pre><code>def msg_func(self, edges):
-	sbf = self.dense_sbf1(edges.data["sbf"])
-	sbf = self.dense_sbf2(sbf)
-	x_kj = edges.src["x_kj"] * sbf
-	return {"x_kj": x_kj}</code></pre>
-							<pre><code>l_g_reverse.update_all(self.msg_func, fn.sum("x_kj", "m_update"))</code></pre>
-							<pre><code>g.edata["m"] = g.edata["m"] + g.edata["m_update"]</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<h2>Output blocks</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<p>Output blocks map edge basis back to nodes and perform readout</p>
-						</x-col>
-						<x-col span="2+2">
-							<pre><code>def forward(self, g):
-	with g.local_scope():
-		g.edata["tmp"] = g.edata["m"] * self.dense_rbf(g.edata["rbf"])
-		g_reverse = dgl.reverse(g, copy_edata=True)
-		g_reverse.update_all(fn.copy_e("tmp", "x"), fn.sum("x", "t"))
-		g.ndata["t"] = self.up_projection(g_reverse.ndata["t"])
-
-		for layer in self.dense_layers:
-			g.ndata["t"] = layer(g.ndata["t"])
-			if self.activation is not None:
-				g.ndata["t"] = self.activation(g.ndata["t"])
-		g.ndata["t"] = self.dense_final(g.ndata["t"])
-		return dgl.readout_nodes(g, "t", op="sum" if self.extensive else "mean")</code></pre>
-						</x-col>
-					</x-grid>
-				</section>
-				<section>
-					<x-grid columns="3" ai="center">
-						<x-col span="1+2">
-							<pre><code>def forward(self, g: dgl.DGLGraph) -> torch.Tensor:
-	g = self.edge_distance(g)
-	l_g = self._create_line_graph(g)
-	# add rbf features for each edge in one batch graph, [num_radial,]
-	g = self.rbf_layer(g)
-	# Embedding block
-	g = self.emb_block(g)
-	# Output block
-	P = self.output_blocks[0](g)  # [batch_size, num_targets]
-	# Prepare sbf feature before the following blocks
-	for k, v in g.edata.items():
-		l_g.ndata[k] = v
-
-	l_g.apply_edges(self.edge_init)
-	# Interaction blocks
-	for i in range(self.num_blocks):
-		g = self.interaction_blocks[i](g, l_g)
-		P += self.output_blocks[i + 1](g)
-	return P</code></pre>
-						</x-col>
-						<x-col>
-							<ol>
-								<li>Compute interatomic distances from Cartesians</li>
-								<li>Expand Gaussian/Bessel basis</li>
-								<li>Compute message passing and MLP blocks</li>
-								<li>Output energy</li>
-							</ol>
-						</x-col>
 					</x-grid>
 				</section>
 			</section>
 			<section>
 				<section>
-					<figure><img src="assets/dimenet_block.svg" alt="" style="height: auto; max-width: 30%;">
+					<h2>Single process performance</h2>
+				</section>
+				<section>
+					<h2>Characterizing single process performance</h2>
+					<x-grid columns="4" ai="center">
+						<x-col>
+							<ul>
+								<li>Batch size of 16 on ICX (36 cores, 2 sockets)</li>
+								<li>Training step corresponds to ~120 SP GFLOPS</li>
+								<li>Memory peak for graph index operations is ~234 GB/s (150 read, 85 write)</li>
+								<li>~20% of clockticks are cache-bound</li>
+							</ul>
+						</x-col>
+						<x-col span="2+3">
+							<figure><img src="assets/vtune-physical.png" alt=""></figure>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>DimeNet++ trace</h2>
+					<x-grid columns="3" ai="center">
+						<x-col span="row">
+							<figure><img src="assets/dimenet-trace.png" alt=""></figure>
+						</x-col>
+						<x-col>
+							<p>Sequential RBF/SBF computation</p>
+						</x-col>
+						<x-col>
+							<p>Tensor creation penalty</p>
+						</x-col>
+						<x-col>
+							Recursive node message passing
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2>Need middle-level information?</h2>
+					<p>Reconcile high level PyTorch profile with low level VTune</p>
+				</section>
+				<section>
+					<figure><img src="assets/dimenet-forward-backward.png" alt=""></figure>
+					<p>High memory usage for node message passing forward/backward pass</p>
+				</section>
+				<section>
+					<figure><img src="assets/vtune-physical.png" alt="">
+						<caption>numactl -C 0-35 -m 0</caption>
+					</figure>
+					<figure><img src="assets/dimenet-hyperthreading.png" alt="">
+						<caption>numactl -C 0-35,72-105 -m 0</caption>
 					</figure>
 				</section>
-				<section>
-					<h2>PyTorch profiling</h2>
-					<x-grid columns="3" ai="center">
-						<x-col>
-							<p>PyTorch 1.11.0+MKL+OMP</p>
-						</x-col>
-						<x-col>
-							<p>DGL <span class="monospace">0.8.0post2</span></p>
-						</x-col>
-						<x-col>
-							<p>OCP <span class="monospace">37d6f7f</span></p>
-						</x-col>
-						<x-col>
-							<p>Batch size 16</p>
-						</x-col>
-						<x-col>
-							<p>Single process, NUMA aware</p>
-						</x-col>
-						<x-col>
-							<p>4 data loaders</p>
-						</x-col>
-					</x-grid>
-					<em>No PyG baseline for CPU; memory allocation issues for DimeNet++</em>
-				</section>
-			</section>
-			<section>
-				<h2>Laundry list</h2>
-				<hr>
-				<x-grid columns="2" ai="top">
-					<x-col>
-						<h3>Performance</h3>
-						<ul>
-							<li>Theoretical FLOPS model for DimeNet++</li>
-							<li>Compare with <span class="monospace">DeepSpeed</span> FLOPS profile</li>
-							<li>Roofline analysis</li>
-							<li>CUDA PyG and DGL baseline</li>
-						</ul>
-					</x-col>
-					<x-col>
-						<h3>Science</h3>
-						<ul>
-							<li>Fix numerical overflow in radial basis</li>
-							<li>Raise DGL double backprop issue</li>
-							<li>Multinode training</li>
-						</ul>
-					</x-col>
-				</x-grid>
 			</section>
 		</div>
 	</div>
