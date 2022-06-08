@@ -6,6 +6,12 @@
  * By Kelvin Lee, 2022
  */
  @import url(minimalist.css);
+
+ :root {
+   --codeBg: #b7cec9;
+   --codeColor: #6f8f99
+ }
+
  section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
    color: #fff; }
 
@@ -18,5 +24,13 @@
 }
 
 .footer {
-  color: #6f8f99
+  color: #6f8f99;
+}
+
+.reveal code {
+  font-family: monospace;
+  font-size: 1vw;
+  background-color: #dcd5c8;
+  color: #3f6b78;
+  line-height: 120%;
 }

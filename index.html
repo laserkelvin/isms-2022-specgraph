@@ -5,16 +5,15 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>Open Catalyst Project</title>
+	<title>ISMS 2022&mdash;SpecGraph</title>
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
-	<link rel="stylesheet" href="dist/theme/mint.css">
-	<link rel="stylesheet" href="dist/theme/skelet.css">
+	<link rel="stylesheet" href="dist/theme/pastel.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 	<!-- Theme used for syntax highlighted code -->
-	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<link rel="stylesheet" href="plugin/highlight/zenburn.css">
 </head>
 
 <body>
@@ -22,20 +21,25 @@
 		<div class="slides">
 			<section>
 				<article>
-					<x-grid columns=4 ai="end">
-						<x-col>
-							<h2 class="r-fit-text">Open Catalyst Project</h2>
-							<h2 class="r-fit-text">Project Sync</h2>
-						</x-col>
-						<x-col span="2+3">
-							<figure><img src="assets/intel-logo.svg" alt=""></figure>
-						</x-col>
-					</x-grid>
+					<h2 class="r-fit-text title">Partition Function Estimation</h2>
+					<h2 class="r-fit-text title">From Incomplete Spectroscopic Graphs</h2>
+					<hr>
+					<h3 class="title">ISMS 2022&mdash;Machine Learning in Chemistry</h3>
 					<footer style="padding-top: 2vw;">
-						<x-grid columns=3 ai="center">
+						<x-grid columns=4 ai="center">
 							<x-col>
+								<figure><img src="assets/intel-logo.svg" alt=""></figure>
+							</x-col>
+							<x-col class="transparent">
 								<p>Kelvin Lee</p>
-								<em>HPC AI for Science Working Group</em>
+							</x-col>
+							<x-col class="transparent">
+								<p>Kyle Crabtree</p>
+							</x-col>
+							<x-col>
+								<figure><img
+										src="https://chemistry.ucdavis.edu/sites/g/files/dgvnsk196/files/Chemistry_sig_0.gif"
+										alt=""></figure>
 							</x-col>
 						</x-grid>
 					</footer>
@@ -48,219 +52,616 @@
 					</x-col>
 					<x-col span="2+2">
 						<ol>
-							<li>Profiling OCP workflow</li>
-							<li>Single process profiling</li>
-							<li>Multi process profiling</li>
+							<li>Spectroscopic graphs</li>
+							<li>Semi-supervised representations of spectra</li>
+							<li>Partition function estimation</li>
 						</ol>
 					</x-col>
 				</x-grid>
 			</section>
 			<section>
 				<section>
-					<x-grid columns="4" ai="center">
-						<x-col>
-							<h2>The
-								BAPP package
-							</h2>
-							<em>
-								Bookkeeping AI Profiling with Python
-							</em>
-						</x-col>
-						<x-col span="2+3">
-							<p>Simple CLI for reproducible profiling and data collection</p>
-							<ul>
-								<li>Aggregates and reports multiple data sources into JSON format</li>
-								<ul>
-									<li>Environment variables/SLURM configuration</li>
-									<li>Software configuration</li>
-									<li>Hardware configuration</li>
-								</ul>
-								<li>Extensive hash tracking for data control</li>
-								<li>Supports framework profiling and VTune</li>
-							</ul>
-						</x-col>
-					</x-grid>
+					<h2 class="title">Spectroscopic analysis</h2>
+					<p>Interaction between radiation and matter</p>
 				</section>
 				<section>
-					<h2>PyTorch profiler</h2>
-					<hr>
+					<h2 class="title">Applications of spectroscopy</h2>
 					<x-grid columns="3" ai="top">
 						<x-col>
-							<h3>Step 1</h3>
-							<p><small>Write minimal profiling script</small></p>
-							<pre><code># use default settings for DimeNet++
-dpp = DimeNetPP(**model_config)
-# wrap in PyTorch Lightning module; disable force computation until
-# we can address the double backprop
-model = S2EFLitModule(dpp, regress_forces=False)
-
-# initialize PyTorch profiler through the PyTorch lightning interface
-profiler = PyTorchProfiler(
-	dirpath=pp,
-	group_by_input_shapes=True,
-	wait=0,
-	warmup=0,
-	active=10,
-	repeat=3,
-	profile_memory=True,
-	with_stack=True,
-	with_flops=True,
-)
-
-data_module = DGLDataModule(
-	"../data/s2ef/200k/train",
-	batch_size=config.get("batch_size"),
-	num_workers=config.get("num_workers"),
-)
-trainer = Trainer(
-    accelerator="cpu",
-    strategy="ddp" if num_procs > 1 else None,
-    num_processes=num_procs,
-    num_nodes=1,
-    max_steps=20,
-    logger=False,
-    log_every_n_steps=100,
-    enable_progress_bar=False,
-    enable_checkpointing=False,
-    profiler=profiler,
-    num_sanity_val_steps=0,
-    enable_model_summary=True,
-)
-
-trainer.fit(model, datamodule=data_module)</code></pre>
+							<figure>
+								<img src="assets/atmospheric-model.png" alt="">
+								<figcaption>
+									<p>Air quality monitoring</p>
+								</figcaption>
+							</figure>
 						</x-col>
-						<x-col span="2+2">
-							<h3>Step 2</h3>
-							<p><small>Configure profiling and data collection</small></p>
-							<pre><code>task: frameworkprofiling
-binary: numactl -C 0-35 -m 0 python lit_dimenetpp.py
-profile_dir: pt-profile
-requested_specs:
-	- lscpu
-	- conda
-	- environment
-	- pytorch
-aux_files:
-	config: bapp_pt_profile.yml
-	script: lit_dimenetpp.py
-env_vars:
-	OMP_NUM_THREADS: 36
-	BATCHSIZE: 16
-	NUM_PROCS: 1
-	NUM_WORKERS: 0
-	SEED: 1205</code></pre>
-							<h3>Step 3</h3>
-							<p><small><code>python -m bapp.cli bapp_pt_profile.yml</code></small></p>
+						<x-col>
+							<figure>
+								<img src="assets/bruker-silicon-wafers.png" alt="">
+								<figcaption>
+									<p>Materials design and characterization</p>
+								</figcaption>
+							</figure>
+						</x-col>
+						<x-col>
+							<figure>
+								<img src="data:image/jpeg;base64,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"
+									alt="">
+								<figcaption>
+									<p>Astrophysics</p>
+								</figcaption>
+							</figure>
 						</x-col>
 					</x-grid>
 				</section>
 				<section>
-					<h2>BAPP organization</h2>
-					<p>Data collection organized in hierarchical manner:</p>
-					<ol>
-						<li>Task (i.e. <code>FrameworkProfiling</code>/<code>vtune</code> </li>
-						<li>Git commit hash</li>
-						<li>Configuration hash</li>
-						<li>Collection (in the case of VTune)</li>
-					</ol>
-					<p>Prevents redundant code/configuration runs, traceable configurations</p>
+					<iframe src="https://thesis.library.caltech.edu/287/"
+						style="height: 20vw; width: 110%; margin: auto"></iframe>
+					<p><em>Spectroscopy is a part of the origin of modern computing!</em></p>
 				</section>
 				<section>
+					<p>Spectra commonly represented on a linear grid&mdash;frequency versus intensity</p>
+					<figure><img src="assets/benzene-no-annotation.svg" alt=""></figure>
+					<p>Well-suited for conventional signal processing (e.g. cross-correlation, matched filtering)</p>
+				</section>
+				<section>
+					<figure><img src="assets/benzene-annotation.svg" alt="">
+						<figcaption>
+							<p>Quantitative analysis takes substantial work&mdash;identifying a mixture of unknowns
+								takes weeks to months</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Challenges</h2>
+					<p>Convert molecular spectra into useful, information rich data<span class="fragment">&mdash;what's
+							in a cocktail and how
+							much?
+						</span></p>
+					<div class="fragment">
+						<hr>
+						<ul>
+							<li>Signal sparse and noisy</li>
+							<li>Bandwidth-limited; truncated information</li>
+							<li>Combinatorial pattern matching</li>
+						</ul>
+					</div>
+					<p class="fragment"><em>Need efficient representations of spectra for machine learning and analysis
+							automation</em>
+					</p>
+				</section>
+				<section>
+					<p>A problem for:</p>
+					<hr>
+					<x-grid columns="3" ai="center">
+						<x-col>
+							<p>Representation learning</p>
+						</x-col>
+						<x-col>
+							<p>Uncertainty awareness</p>
+						</x-col>
+						<x-col>
+							<p>Physics constraints</p>
+						</x-col>
+						<x-col class="fragment">
+							<p><em>Semantic understanding and control of molecular spectra</em></p>
+						</x-col>
+						<x-col class="fragment">
+							<p><em>Limited data should affect inference</em></p>
+						</x-col>
+						<x-col class="fragment">
+							<p><em>Predictions should behave according to physics/causality</em></p>
+						</x-col>
+						<x-col class="fragment" span="1+2">
+							<p><b>Graph neural networks</b></p>
+						</x-col>
+						<x-col class="fragment">
+							<p><b>Neural differential equations</b></p>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<x-grid columns="2" ai="center">
+						<x-col class="transparent">
+							<h2 class="title">Where do we start?</h2>
+							<ol>
+								<li class="fragment">Native and efficient data structure for spectra</li>
+								<li class="fragment">Understanding of quantum mechanical nature of spectra</li>
+								<li class="fragment">Quantitative predictions</li>
+							</ol>
+						</x-col>
+						<x-col>
+							<figure>
+								<img src="assets/acetaldehyde-axes.svg" alt="">
+								<figcaption>
+									<p>Molecule rotation based on principal inertial axes&mdash;the asymmetric
+										distortable
+										rotor</p>
+								</figcaption>
+							</figure>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<figure>
+						<img src="assets/acetaldehyde-300k.svg" alt="">
+						<figcaption>
+							<p>Rotational spectrum of acetaldehyde at 300 K</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Graph representation of spectra</h2>
 					<x-grid columns="2" ai="top">
 						<x-col>
-							<pre><code>b8a4674/
-└── 4619fab/
-	├── bapp.log
-	├── bapp_pt_profile.yml
-	├── lit_dimenetpp.py
-	├── profile
-	│   └── fit-training_step.1651520873629.pt.trace.json
-	└── specifications
-		├── Conda.json
-		├── Environment.json
-		├── LSCPU.json
-		└── PyTorch.json
-
-3 directories, 8 files
-</code></pre>
+							<figure><img src="assets/spectrum-projection.png" alt=""></figure>
 						</x-col>
 						<x-col>
-							<p>Capture and store specifciations</p>
-							<ul>
-								<li>Conda environment and packages</li>
-								<li>Environment variables set (includes SLURM)</li>
-								<li>CPU specifications</li>
-								<li>Framework build arguments</li>
-							</ul>
+							<p>Each transition corresponds to connected, discrete energy levels</p>
+							<p>Projected monograph: </p>
+							<p>Each node possesses 5 unique <em>physical</em> labels</p>
 						</x-col>
 					</x-grid>
+				</section>
+				<section>
+					<h2 class="title">Matching spectra</h2>
+					<x-grid columns="2" ai="top">
+						<x-col>
+							<h3>Position</h3>
+							<p>Depends on differences between energy levels: magnitude of $A, B, C$</p>
+							<p>Overall pattern determined by relative ratios of $A,B,C$&mdash;the shape of the molecule
+							</p>
+						</x-col>
+						<x-col>
+							<h3>Height</h3>
+							<p>Specific to molecular properties:</p>
+							<p>Line strength ($S_{ij}$) and dipole moment ($\mu$)
+							</p>
+							<p>Molecule independent temperature weighting of energy levels</p>
+							<p>[$Q(T)$]</p>
+						</x-col>
+					</x-grid>
+					<p class="fragment">$I \propto S_{ij} \cdot \mu \cdot Q(T)$</p>
+					<p class="fragment"><em>Quantitative analysis requires accurate position and intensity matching</em>
+					</p>
+				</section>
+				<section>
+					<h2 class="title">The role of partition functions</h2>
+					<x-grid columns="2" ai="center">
+						<x-col>
+
+							<p>Accurate calculation of line intensities requires precise determinations of partition
+								functions
+							</p>
+							<p>Partition function: $Q(T) = \sum^\infty_i g_i e^\frac{-E_i}{k_BT}$</p>
+						</x-col>
+						<x-col class="fragment">
+							<p>Intrinsic line strength: $S_{ij} = I_a \frac{A_{ij}}{8\pi c \nu^2_{ij}} \frac{g'
+								e^{-E_i/k_B
+								T}
+								(1 -
+								e^{-\nu_{ij}/T})}{Q(T)} $</p>
+							<p>Population of each energy level at temperature $T$ contributes to the quantification
+								of
+								the
+								whole
+								system </p>
+						</x-col>
+						<x-col class="fragment">
+							<p><em>The partition function is to statistical mechanics what wavefunctions are to
+									quantum
+									mechanics</em></p>
+						</x-col>
+						<x-col class="fragment">
+							<p><em>The partition function is to statistical mechanics what softmax is to attention
+									(they're
+									the same thing)</em>
+							</p>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h5 class="title">A graph neural network model that can encode truncated spectra and accurately
+						predict the partition function over a range of temperatures</h5>
+					<hr>
 				</section>
 			</section>
 			<section>
 				<section>
-					<h2>Single process performance</h2>
+					<h2 class="title">Semi-supervised</h2>
+					<h2 class="title">representations of spectra</h2>
 				</section>
 				<section>
-					<h2>Characterizing single process performance</h2>
-					<x-grid columns="4" ai="center">
+					<h2 class="title">Dataset creation</h2>
+					<p>Use well-known SPCAT/CALPGM program for simulating rotational spectra</p>
+					<x-grid columns="2" ai="top">
 						<x-col>
 							<ul>
-								<li>Batch size of 16 on ICX (36 cores, 2 sockets)</li>
-								<li>Training step corresponds to ~120 SP GFLOPS</li>
-								<li>Memory peak for graph index operations is ~234 GB/s (150 read, 85 write)</li>
-								<li>~20% of clockticks are cache-bound</li>
+								<li>100,000 asymmetric rotor spectra with centrifugal distortion</li>
+								<li>Cutoff in simulation frequency at 2 THz</li>
+								<li>~6,000 transitions per spectrum at 300 K</li>
+								<li>Approx. 1 hour to generate dataset</li>
+								<li>80%/15%/5% training/validation/testing split</li>
 							</ul>
 						</x-col>
-						<x-col span="2+3">
-							<figure><img src="assets/vtune-physical.png" alt=""></figure>
+						<x-col>
+							<ul>
+								<li>Uniform sampling for $A$, $D_J$, $D_{JK}$, and $D_K$</li>
+								<li>Physical constraint of $A >= B >= C$</li>
+								<li>Average graph size ~1,000 nodes, ~10,000 edges</li>
+								<li>Min/max degree of 2/86; average 28</li>
+							</ul>
 						</x-col>
 					</x-grid>
 				</section>
 				<section>
-					<h2>DimeNet++ trace</h2>
+					<x-grid columns="2" ai="top">
+						<x-col>
+							<h3>Software</h3>
+							<ul>
+								<li><code>torch 1.11.0+cpu</code></li>
+								<li><code>dgl 0.8.2</code></li>
+								<li><code>libxsmm</code></li>
+								<li><code>pytorch-lightning 1.5.10</code></li>
+								<li><code>umap 0.5.0</code></li>
+							</ul>
+						</x-col>
+						<x-col>
+							<h3>Hardware</h3>
+							<ul>
+								<li>Intel Xeon Platinum 8360Y</li>
+								<li>Dual socket, 36 physical cores per socket</li>
+							</ul>
+						</x-col>
+					</x-grid>
+				</section>
+				<section>
+					<h2 class="title">Graph convolution</h2>
+					<x-grid>
+						<x-col>
+							<p>Inductive bias</p>
+						</x-col>
+						<x-col>
+							<p>Permutation invariance</p>
+						</x-col>
+						<x-col>
+							<p>Relational structure</p>
+						</x-col>
+						<x-col>
+							<p>Performant</p>
+						</x-col>
+					</x-grid>
+					<hr>
+					<p><em>Graph neural networks can learn topology and properties of energy levels</em></p>
+				</section>
+				<section>
+					<h2 class="title">Learning spectroscopic topology</h2>
+					<figure class="wrap"><img src="assets/autoencoder-arch.png" alt="">
+						<figcaption>
+							<p>Graph-based encoder-decoder architecture for representation learning of energy levels</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Stochastic subgraph sampling</h2>
+					<x-grid columns="3" ai="top">
+						<x-col>
+							<p>Molecular graphs are small</p>
+						</x-col>
+						<x-col>
+							<p>Spectroscopic graphs can be small <em>and</em> infinitely large</p>
+						</x-col>
+						<x-col>
+							<p>Knowledge graphs are monolithic</p>
+						</x-col>
+					</x-grid>
+					<p>Spectroscopic graphs unique in size, and pose unique opportunities and challenges for AI/ML</p>
+					<p class="fragment">Train on subgraphs, test on <em>truncated</em> graphs</p>
+				</section>
+				<section>
+					<h2 class="title">Quantum number embeddings</h2>
+					<p>Represent quantum numbers (features) in continuous domain of dimension $D$</p>
+					<p>$J, K_a, K_c \rightarrow i \rightarrow z \in \mathbb{R}^D$</p>
+					<div class="fragment">
+						<hr>
+						<p>Learned embeddings expand/parameterize information contained in quantum numbers</p>
+						<ul>
+							<li>Typical connectivity associated with particular $J$</li>
+							<li>For up to $J=100$ and $K_a + K_c <= J$, this is ~300,000 learnable vectors of dimension
+									$D$</li>
+							<li>For $D=16$, this is ~5.6 million parameters</li>
+						</ul>
+					</div>
+				</section>
+				<section data-visibility="hidden">
+					<h2 class="title">Oversmoothing</h2>
+					<p>Spectroscopic graphs are inherently smooth structures</p>
+					<p>Power of graph neural networks is in message passing information aggregation</p>
+				</section>
+				<section data-visibility="hidden">
+					<h2 class="title">Oversmoothing</h2>
+					<p>Apply V(I)C self-supervision on node embeddings</p>
+					<x-grid columns="2" ai="top">
+						<x-col>
+							<h3>Variance</h3>
+							<p>Maximize variation between <em>batches</em></p>
+							<p>$v(Z) = \frac{1}{d} \sum^d_{j=1} \rm{max}(0, \gamma - \sqrt{\rm{Var}(Z_{:,j} +
+								\epsilon})$
+							</p>
+						</x-col>
+						<x-col>
+							<h3>Covariance</h3>
+							<p>Minimize correlation between <em>embedding dimensions</em></p>
+							<p>$C(Z) = \frac{1}{n-1}(Z_i - \bar{Z})(Z_i - \bar{Z})^T$; $c(Z) = \frac{1}{d}\sum_{i\neq j}
+								C(Z)^2_{ij}$</p>
+						</x-col>
+					</x-grid>
+				</section>
+				<section data-visibility="hidden">
+					<p>Loss plateaus for unregularized GNNs as node embeddings become identical</p>
+				</section>
+				<section>
+					<h2 class="title">Learning rate annealing</h2>
+					<p>Learning rate affects model convergence; static value cannot guarantee the best model</p>
+					<p>Cosine annealing cycles learning rate to help find better models</p>
+					<p>High learning rates will escape shallow regions of loss surface</p>
+				</section>
+				<section>
+					<h2 class="title">Bouncing ball scheduler</h2>
+					<p>Exponential dampened annealing scheduler</p>
+					<p><span style="opacity: 0.7">
+							$\eta(t) = \eta_\rm{min} + \frac{1}{2}(\eta_\rm{max} - \eta_\rm{min})(1 + \cos \left(
+							\frac{t
+							\pi}{T_\rm{max}} \right) )$
+						</span><span>$\exp\left(\frac{-t \gamma}{T_\rm{max}}\right)$</span>
+					</p>
+					<figure><img src="assets/bouncing_ball_scheduler.svg" alt=""></figure>
+				</section>
+				<section>
+					<h2 class="title">Comparison of annealing schemes</h2>
+					<figure>
+						<img src="assets/annealing-comparison.svg" alt="">
+						<figcaption>
+							<p>Dampening improves convergence to better minima</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Putting it all together</h2>
+					<p>
+						$\mathcal{L} = \mathcal{L}_\rm{node} + \mathcal{L}_\rm{graph} + \mathcal{L}_\rm{link}$
+					</p>
+					<p>Node regression, graph regression, linkage prediction, and embedding regularization</p>
+					<p>Regression: Gaussian negative loglikelihood&mdash;linkage prediction: binary cross-entropy</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2 class="title">Graph autoencoder</h2>
+					<hr>
+					<ul>
+						<li>What information is encoded?</li>
+						<li>How accurate are the node/graph predictions?</li>
+						<li>How accurate is the linkage prediction?</li>
+					</ul>
+				</section>
+				<section>
+					<h2 class="title">Qualitative assessment</h2>
+					<p>Visualize patterns in the high dimensional manifold using UMAP</p>
+				</section>
+				<section>
+					<h2 class="title">Learned representations</h2>
+					<figure>
+						<img src="assets/umap-node-embeddings.png" alt="">
+						<figcaption>
+							<p>Node embeddings encode physical properties</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Learned representations</h2>
+					<figure>
+						<img src="assets/umap-graph-embeddings.svg" alt="">
+						<figcaption>
+							<p>Graph embeddings encode rotational constants information</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Quantitative assessment</h2>
+					<p>How accurate are predictions?</p>
+					<p>How does graph truncation affect accuracy?</p>
+				</section>
+				<section>
+					<h2 class="title">Rotational parameter accuracy</h2>
+					<figure>
+						<img src="assets/gcn-param-accuracy.svg" alt="">
+						<figcaption>
+							<p>Average accuracy is not affected by graph truncation!</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Inferring molecular parameters</h2>
+					<figure>
+						<img src="assets/gcn-gnll.svg" alt="">
+						<figcaption>
+							<p>Predicted well within an order of magnitude, but not spectroscopic precision</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<figure>
+						<img src="assets/gcn-param-uncertainty.svg" alt="">
+						<figcaption>
+							<p>Predicted uncertainty <em>does not</em> depend on amount of information available</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<p>Model learns the general size (magnitude of $A,B,C$) and shape of the molecule (ratios of
+						$A,B,C$) from energy levels</p>
+					<p class="fragment">Great for molecule identification!</p>
+				</section>
+				<section>
+					<h2 class="title">Partition function estimation</h2>
+					<hr>
+					<ul>
+						<li>Can we accurately predict the partition function from limited data?</li>
+						<li>Can we enforce physical intuition?</li>
+					</ul>
+				</section>
+				<section>
+					<h2 class="title">Partition function estimation</h2>
+					<p>Partition function as the familiar exponential weighted energy level populations</p>
+					<p>$Q(T) = \sum^\infty_i g_i e^{\frac{-E_i}{k_B T}}$</p>
+					<p>At high temperatures, more levels (and higher energy ones) contribute significantly to $Q(T)$</p>
+				</section>
+				<section>
+					<h2 class="title">Partition function estimation</h2>
+					<p>Two criteria for estimating $Q(T)$ with ML:</p>
+					<ul>
+						<li class="fragment">Smooth function of temperature</li>
+						<li class="fragment">Dependent on previous values</li>
+						<li class="fragment">Contribution of nodes weighted dynamically by temperature</li>
+					</ul>
+					<p class="fragment">Parameterize a neural network estimator&mdash;RNN or neural differential
+						equation!</p>
+				</section>
+				<section>
+					<h2 class="title">Recurrent neural networks</h2>
+					<p>Partition function can be expressed recurrently; $Q(Q_{T-1}, T\vert Q_{T-2} \ldots)$</p>
+					<p>Use node embeddings as initial state to GRU; recurse through temperatures</p>
+					<p>Conventional RNNs do not <em>necessarily</em> guarantee smoothness nor generalizability and
+						requires regularly sampled grids</p>
+				</section>
+				<section>
+					<h2 class="title">Neural ODEs</h2>
+					<figure class="wrap"><img src="assets/neuralode-arch.png" alt=""></figure>
+					<p>Neural differential equation parameterizes temperature dependent node attention</p>
+				</section>
+				<section>
+					<h2 class="title">Training strategy</h2>
+					<p>Randomly sample points along partition function/temperature curve</p>
+					<p>Always train with the first ten points&mdash;crucial for causal models</p>
+					<p>Evaluate $\hat{Q}(T \vert \theta) = \rm{DNN}_\theta(T, z)$</p>
+					<p>$\mathcal{L}_\rm{Q} = \rm{MSE}(Q, \hat{Q})$</p>
+				</section>
+				<section>
+					<x-grid columns="2" ai="center">
+						<x-col>
+							<figure><img src="assets/qpart-idx8-rnn.svg" alt=""></figure>
+						</x-col>
+						<x-col class="fragment">
+							<figure><img src="assets/qpart-idx8-ode.svg" alt=""></figure>
+						</x-col>
+					</x-grid>
+					<p class="fragment">Neural ODE behaves smoothly and predictably!</p>
+				</section>
+				<section>
+					<h2 class="title">GRU predictions</h2>
+					<figure><img src="assets/rnn-qpart-grid.svg" alt="">
+					</figure>
+				</section>
+				<section>
+					<h2 class="title">Neural ODE predictions</h2>
+					<figure>
+						<img src="assets/gcn-qpart-grid.svg" alt="">
+					</figure>
+				</section>
+				<section>
+					<p>We can accurately predict the partition function from limited data!</p>
+					<p class="fragment">...but is it <em>interpretable</em>?</p>
+					<div class="fragment">
+						<hr>
+						<p>Which energy levels matter according to
+							attention?</p>
+					</div>
+				</section>
+				<section>
+					<figure>
+						<img src="assets/node-attention.svg" alt="">
+						<figcaption>
+							<p>Only slight variations in node attention over a large range of temperatures</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<figure>
+						<img src="assets/node-attention-true.svg" alt="">
+						<figcaption>
+							<p>Node attention does not behave according to $g \cdot e^{\frac{-E}{k_BT}}$!</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<figure>
+						<img src="assets/attention-entropy.svg" alt="">
+						<figcaption>
+							<p>Counterintuitive: attention becomes <em>less</em> uniform at higher temperatures</p>
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<p>Unsupervised attention mechanism is not interpretable&mdash;need semi-supervision or calibration
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2 class="title">Conclusions</h2>
+					<hr>
 					<x-grid columns="3" ai="center">
-						<x-col span="row">
-							<figure><img src="assets/dimenet-trace.png" alt=""></figure>
+						<x-col class="fragment">
+							<figure>
+								<img src="assets/autoencoder-arch.svg" alt="">
+								<figcaption>
+									<p>Graph autoencoder can learn spectroscopic representation</p>
+								</figcaption>
+							</figure>
 						</x-col>
-						<x-col>
-							<p>Sequential RBF/SBF computation</p>
+						<x-col class="fragment">
+							<figure>
+								<img src="assets/qpart-idx8-ode.svg" alt="">
+								<figcaption>
+									<p>Neural ODE accurately predicts partition function</p>
+								</figcaption>
+							</figure>
 						</x-col>
-						<x-col>
-							<p>Tensor creation penalty</p>
-						</x-col>
-						<x-col>
-							Recursive node message passing
+						<x-col class="fragment">
+							<figure>
+								<img src="assets/node-attention.svg" alt="">
+								<figcaption>
+									<p>Interpretability and uncertainty requires more supervision</p>
+								</figcaption>
+							</figure>
 						</x-col>
 					</x-grid>
 				</section>
 				<section>
-					<h2>Need middle-level information?</h2>
-					<p>Reconcile high level PyTorch profile with low level VTune</p>
+					<h2 class="title">Future work</h2>
+					<ul>
+						<li class="fragment">Scaling up the model and dataset&mdash;what can we learn?</li>
+						<li class="fragment">Solving unknown mixtures of molecules</li>
+						<li class="fragment">Scale to multimodal spectroscopy</li>
+						<li class="fragment">Towards reliable, semantic, automated spectroscopic analysis</li>
+					</ul>
 				</section>
-				<section>
-					<figure><img src="assets/dimenet-forward-backward.png" alt=""></figure>
-					<p>High memory usage for node message passing forward/backward pass</p>
-				</section>
-				<section>
-					<figure><img src="assets/vtune-physical.png" alt="">
-						<caption>numactl -C 0-35 -m 0</caption>
-					</figure>
-					<figure><img src="assets/dimenet-hyperthreading.png" alt="">
-						<caption>numactl -C 0-35,72-105 -m 0</caption>
-					</figure>
-				</section>
+			</section>
+			<section>
+				<h2 class="title">Thank you!</h2>
 			</section>
 		</div>
 	</div>
 	<div id="slide-footer" class="footer">
 		<x-grid columns="3" ai="center">
-			<x-col>
-				<small>Intel Confidential</small>
+			<x-col class="transparent">
+				<small>Intel Accelerated Computing Systems and Graphics Group</small>
 			</x-col>
-			<x-col>
-				<small>Intel AXG&middot;HPC EUE</small>
+			<x-col class="transparent">
+				<small>High Performance Computing &middot; End User Enablement</small>
 			</x-col>
-			<x-col>
+			<x-col class="transparent">
 				<small>Kelvin Lee</small>
 			</x-col>
 		</x-grid>

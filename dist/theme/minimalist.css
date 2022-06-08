@@ -15,14 +15,9 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  * GLOBAL STYLES
  *********************************************/
 :root {
-  --background-color: #fff;
-  --main-font: Source Sans Pro, Helvetica, sans-serif;
   --main-font-size: calc(100vw / 75);
-  --main-color: #222;
   --block-margin: 20px;
   --heading-margin: 0 0 20px 0;
-  --heading-font: Lato, Source Sans Pro, Helvetica, sans-serif;
-  --heading-color: #222;
   --heading-line-height: 1.2;
   --heading-letter-spacing: normal;
   --heading-text-transform: normal;
@@ -33,36 +28,44 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --heading2-size: 7rem;
   --heading3-size: 5rem;
   --heading4-size: 4rem;
-  --code-font: monospace;
-  --link-color: #2a76dd;
-  --link-color-hover: #6ca0e8;
-  --selection-background-color: #98bdef;
-  --selection-color: #fff; }
+  --nav-controls: var(--primary)
+}
 
 .reveal-viewport {
-  background: #fff;
-  background-color: #fff; }
+  background: var(--bgColor);
+  background-color: var(--bgColor); }
 
 .reveal {
-  font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-size: calc(100vw / 75);
-  font-weight: normal;
-  color: #222; }
+  font-family: var(--fontFamily);
+  font-size: var(--fontSize);
+  font-weight: var(--fontWeight);
+  color: var(--color); }
 
 .reveal ::selection {
-  color: #fff;
-  background: #98bdef;
+  background: var(--selectionBg); color: var(--selectionText);
   text-shadow: none; }
 
 .reveal ::-moz-selection {
-  color: #fff;
-  background: #98bdef;
+  background: var(--selectionBg); color: var(--selectionText);
   text-shadow: none; }
 
 .reveal .slides section,
 .reveal .slides section > section {
   line-height: 1.3;
   font-weight: inherit; }
+
+.reveal .slide-number {
+  font-family: "Lato";
+  font-size: calc(var(--fontSize) * 0.7);
+  right: 2vw;
+  bottom: 2vw;
+  padding: 12px;
+  border-radius: var(--boxRadius);
+}
+
+.reveal .controls .navigate-down {
+  padding-bottom: 2.5vw;
+}
 
 /*********************************************
  * HEADERS
@@ -74,9 +77,9 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal h5,
 .reveal h6 {
   margin: 0 0 20px 0;
-  color: #222;
-  font-family: "Lato", "Source Sans Pro", Helvetica, sans-serif;
-  font-weight: 600;
+  color: var(--hColor);
+  font-family: var(--hFontFamily);
+  font-weight: var(--hWeight);
   line-height: 1.2;
   letter-spacing: normal;
   text-transform: normal;
@@ -90,7 +93,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  * OTHER
  *********************************************/
 .reveal p {
-  margin: 20px 0;
+  margin: var(--pMargin);
   line-height: 1.3; }
 
 /* Remove trailing margins after titles */
@@ -114,7 +117,9 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   font-weight: bold; }
 
 .reveal em {
-  font-style: italic; }
+  font-style: italic; 
+  margin: var(--pMargin)
+}
 
 .reveal ol,
 .reveal dl,
@@ -168,7 +173,7 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 .reveal pre {
   display: block;
   position: relative;
-  width: 90%;
+  max-width: max-content;
   margin: 20px auto;
   text-align: left;
   font-size: 0.55em;
@@ -178,16 +183,22 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); }
 
 .reveal code {
-  font-family: monospace;
+  font-family: var(--codeFontFamily);
   text-transform: none;
-  tab-size: 2; }
+  tab-size: 2;
+  background-color: transparent;
+  line-height: 120%;
+  font-size: 0.75vw;
+}
 
 .reveal pre code {
   display: block;
-  padding: 5px;
+  padding: 1vw;
   overflow: auto;
   max-height: 400px;
-  word-wrap: normal; }
+  word-wrap: normal; 
+  background: var(--black);
+}
 
 .reveal table {
   margin: auto;
@@ -239,18 +250,18 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  * LINKS
  *********************************************/
 .reveal a {
-  color: #2a76dd;
+  color: var(--linkColor);
   text-decoration: none;
   transition: color .15s ease; }
 
 .reveal a:hover {
-  color: #6ca0e8;
+  color: var(--linkHover);
   text-shadow: none;
   border: none; }
 
-.reveal .roll span:after {
+/* .reveal .roll span:after {
   color: #fff;
-  background: #1a53a1; }
+  background: #1a53a1; } */
 
 /*********************************************
  * Frame helper
@@ -270,14 +281,14 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-  color: #2a76dd; }
+  color: var(--primary); }
 
 /*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
-  color: #2a76dd; }
+  color: var(--primary); }
 
 /*********************************************
  * PRINT BACKGROUND
@@ -338,7 +349,7 @@ figure figcaption {
 }
 
 .footer > p {
-  font-size: 30%;
+  font-size: 1vw;
 }
     
 .footer span {
@@ -358,4 +369,36 @@ figure figcaption {
 
 .monospace {
   font-family: "Source Code Pro", monospace, monospace;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+li {
+  margin: var(--margin)
+}
+
+ul {
+  padding: 1.2vw;
+}
+
+.inline li {
+  padding: 0.5vw;
+}
+
+.primary {
+  color: var(--primary)
+}
+
+.secondary {
+  color: var(--secondary)
+}
+
+.tertiary {
+  color: var(--tertiary)
+}
+
+.quarternary {
+  color: var(--quarternary)
 }

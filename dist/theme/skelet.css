@@ -70,6 +70,7 @@ summary{display:list-item}
     /* typography */
     --fontFamily: "Inter", "HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial", -apple-system, BlinkMacSystemFont, -system-ui, system-ui, sans-serif;
     --fontFamilyVar: "Inter var", "HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial", -apple-system, BlinkMacSystemFont, -system-ui, system-ui, sans-serif;
+    --codeFontFamily: "Source Code Pro", monospace;
     --hFontFamily: var(--fontFamily);
 
     --fontSize: 1.7rem;
@@ -268,12 +269,12 @@ a.no-style { text-decoration:none }
 
 code {
     padding: calc(var(--boxPadding) - 0.5rem);
-    margin: calc(var(--boxPadding) - 0.75rem);
-    font-size: 90%;
+    /* margin: calc(var(--boxPadding) - 0.75rem); */
+    /* font-size: 90%; */
     white-space: nowrap;
     vertical-align: middle;
     background-color: var(--codeBg);
-    border: 1px solid var(--boxBorderColor);
+    /* border: 1px solid var(--boxBorderColor); */
     color: var(--codeColor);
     border-radius: var(--boxRadius);
     overflow:hidden;
