@@ -46,24 +46,6 @@
 				</article>
 			</section>
 			<section>
-				<x-grid columns="3" ai="center">
-					<x-col>
-						<h1>TOC</h1>
-					</x-col>
-					<x-col span="2+2">
-						<ol>
-							<li>Spectroscopic graphs</li>
-							<li>Semi-supervised representations of spectra</li>
-							<li>Partition function estimation</li>
-						</ol>
-					</x-col>
-				</x-grid>
-			</section>
-			<section>
-				<section>
-					<h2 class="title">Spectroscopic analysis</h2>
-					<p>Interaction between radiation and matter</p>
-				</section>
 				<section>
 					<h2 class="title">Applications of spectroscopy</h2>
 					<x-grid columns="3" ai="top">
@@ -93,11 +75,6 @@
 							</figure>
 						</x-col>
 					</x-grid>
-				</section>
-				<section>
-					<iframe src="https://thesis.library.caltech.edu/287/"
-						style="height: 20vw; width: 110%; margin: auto"></iframe>
-					<p><em>Spectroscopy is a part of the origin of modern computing!</em></p>
 				</section>
 				<section>
 					<p>Spectra commonly represented on a linear grid&mdash;frequency versus intensity</p>
@@ -259,6 +236,7 @@
 							</p>
 						</x-col>
 					</x-grid>
+					<p class="fragment">Can we infer a converged $Q(T)$ from a subset of levels?</p>
 				</section>
 				<section>
 					<h5 class="title">A graph neural network model that can encode truncated spectra and accurately
@@ -288,6 +266,7 @@
 							<ul>
 								<li>Uniform sampling for $A$, $D_J$, $D_{JK}$, and $D_K$</li>
 								<li>Physical constraint of $A >= B >= C$</li>
+								<li>Transitions based on $\mu_a = \mu_b = \mu_c =1$</li>
 								<li>Average graph size ~1,000 nodes, ~10,000 edges</li>
 								<li>Min/max degree of 2/86; average 28</li>
 							</ul>
@@ -400,13 +379,13 @@
 				<section data-visibility="hidden">
 					<p>Loss plateaus for unregularized GNNs as node embeddings become identical</p>
 				</section>
-				<section>
+				<section data-visibility="hidden">
 					<h2 class="title">Learning rate annealing</h2>
 					<p>Learning rate affects model convergence; static value cannot guarantee the best model</p>
 					<p>Cosine annealing cycles learning rate to help find better models</p>
 					<p>High learning rates will escape shallow regions of loss surface</p>
 				</section>
-				<section>
+				<section data-visibility="hidden">
 					<h2 class="title">Bouncing ball scheduler</h2>
 					<p>Exponential dampened annealing scheduler</p>
 					<p><span style="opacity: 0.7">
@@ -417,7 +396,7 @@
 					</p>
 					<figure><img src="assets/bouncing_ball_scheduler.svg" alt=""></figure>
 				</section>
-				<section>
+				<section data-visibility="hidden">
 					<h2 class="title">Comparison of annealing schemes</h2>
 					<figure>
 						<img src="assets/annealing-comparison.svg" alt="">
